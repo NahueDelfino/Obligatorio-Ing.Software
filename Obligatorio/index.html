@@ -1,203 +1,197 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Huellas | Clinica Veterinaria</title>
-    <link rel="icon" type="image/png" href="img/logo.ico">
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Huellas | Clínica Veterinaria</title>
+  <link rel="icon" type="image/png" href="img/logo.ico">
+  <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
 
-<header>
+  <header>
     <div class="container">
-    <nav>
+      <nav>
         <div class="logo">
-            <img src="img/logo.png" alt="Huellas logo" class="logoImg">
-            <span>Huellas</span>
+          <img src="img/logo.png" alt="Huellas logo" class="logoImg">
+          <span>Huellas</span>
         </div>
-      <div>
+
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+
+        <div id="navLinks">
+          <a href="#services">Servicios</a>
+          <a href="#professionals">Profesionales</a>
+          <a href="#booking">Reservas</a>
+          <a href="#contact">Contacto</a>
+          <a href="#reservasAdmin">Listado de reservas</a>
+          <a href="#" onclick="openLogin()" style="color: var(--green); font-weight:700;">Login</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- LOGIN MODAL -->
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+      <h2 class="modal-title">Login</h2>
+
+      <form id="loginForm">
+        <label>Usuario</label>
+        <input type="text" id="adminUser" required>
+
+        <label>Contraseña</label>
+        <input type="password" id="adminPass" required>
+
+        <div id="loginError" class="error"></div>
+
+        <button class="btn btn-full">Login</button>
+        <button type="button" class="btn-cancel" onclick="closeLogin()">Cancelar</button>
+      </form>
+    </div>
+  </div>
+
+  <main class="container">
+
+    <!-- LISTADO ADMIN -->
+    <section id="reservasAdmin">
+      <h2>Listado de Reservas</h2>
+
+      <div class="filters">
+        <input type="date" id="fromDate">
+        <input type="date" id="toDate">
+
+        <select id="filterService">
+          <option value="">Todos</option>
+          <option>Veterinaria clinica</option>
+          <option>Pet Grooming</option>
+          <option>Bath & Aesthetics</option>
+        </select>
+
+        <button class="btn" onclick="applyFilters()">Filtrar</button>
+        <button class="btn" onclick="downloadCSV()">Descargar</button>
+      </div>
+
+      <table class="reservas-table">
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Servicio</th>
+            <th>Profesional</th>
+            <th>Cliente</th>
+            <th>Mascota</th>
+          </tr>
+        </thead>
+        <tbody id="reservasBody"></tbody>
+      </table>
+    </section>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Cuidamos la salud de tu mascota</h1>
+        <p>Amor, cuidado y salud para tu compañero de vida.</p>
+        <a href="#booking"><button class="btn">Reservar</button></a>
+      </div>
+      <img src="img/principal.jpg" style="width:100%;border-radius:14px;">
+    </section>
+
+    <!-- SERVICIOS -->
+    <section id="services">
+      <h2>Nuestros Servicios</h2>
+      <div class="cards">
+        <div class="card">Veterinaria clínica</div>
+        <div class="card">Cirugía veterinaria</div>
+        <div class="card">Higiene</div>
+        <div class="card">Estética</div>
+      </div>
+    </section>
+
+    <!-- PROFESIONALES -->
+    <section id="professionals">
+      <h2>Profesionales</h2>
+      <div class="professionals">
+        <div class="card pro-card">Dra. Ana López</div>
+        <div class="card pro-card">Dr. Juan Pérez</div>
+        <div class="card pro-card">María Gómez</div>
+      </div>
+    </section>
+
+    <!-- RESERVAS -->
+    <section id="booking">
+      <h2>Reservar turno</h2>
+      <form id="bookingForm">
+        <select id="service" required>
+          <option>Veterinaria clinica</option>
+          <option>Pet Grooming</option>
+          <option>Bath & Aesthetics</option>
+        </select>
+
+        <select id="professional" required>
+          <option>Dra. Ana López</option>
+          <option>Dr. Juan Pérez</option>
+        </select>
+
+        <input type="date" id="date" required>
+        <select id="time">
+          <option>09:00</option>
+        </select>
+        <input type="text" placeholder="Cliente" required>
+        <input type="text" placeholder="Mascota" required>
+
+        <button class="btn">Confirmar</button>
+        <div id="message"></div>
+      </form>
+    </section>
+
+  </main>
+
+  <footer id="contact">
+    <div class="container footer-grid">
+
+      <div class="footer-col">
+        <div class="logo footer-logo">
+          <img src="img/logo.png" alt="Huellas logo" class="logoImg">
+          <span>Huellas</span>
+        </div>
+        <p>
+          Clínica veterinaria dedicada al cuidado integral de tu mascota.
+          Atención profesional, humana y cercana.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <p>📍 Montevideo, Uruguay</p>
+        <p>📞 099 123 456</p>
+        <p>✉️ contacto@huellas.com</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Horarios</h4>
+        <p>Lunes a Viernes: 9:00 – 18:00</p>
+        <p>Sábados: 9:00 – 13:00</p>
+        <p>Domingos: Cerrado</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Accesos</h4>
         <a href="#services">Servicios</a>
         <a href="#professionals">Profesionales</a>
         <a href="#booking">Reservas</a>
-        <a href="#contact">Contacto</a>
-        <a href="#login" style="color: var(--green); font-weight:700;">Login</a>
       </div>
-    </nav>
-  </div>
-</header>
 
-<div id="loginModal" class="modal">
-  <div class="modal-content">
-    <h2 class="modal-title">Login</h2>
-
-    <form id="loginForm">
-      <label for="adminUser">Usuario</label>
-      <input type="text" id="adminUser" required />
-
-      <label for="adminPass">Contraseña</label>
-      <input type="password" id="adminPass" required />
-
-      <div id="loginError" class="error"></div>
-
-      <button class="btn btn-full" type="submit">Login</button>
-      <button type="button" class="btn-cancel" onclick="closeLogin()">Cancelar</button>
-    </form>
-  </div>
-</div>
-
-<main class="container">
-
-  <section class="hero">
-    <div class="hero-content">
-      <h1>Cuidamos la salud de tu mascota</h1>
-      <p>“Amor, cuidado y salud para tu compañero de vida. Tu mascota merece lo mejor, y nosotros estamos aquí para dárselo.”</p>
-      <a href="#booking"><button class="btn">Reserva una cita</button></a>
-    </div>
-    <div>
-      <img src="img/principal.jpg" alt="Pet illustration" style="width:100%; border-radius:14px;">
-    </div>
-  </section>
-
-  <section id="services">
-    <h2>Nuestros Servicios</h2>
-    <div class="cards">
-      <div class="card"><h3>Veterinaria clinica</h3><p>Atendemos la salud de tus mascotas con consultas, controles, vacunación, desparasitación y urgencias. Nuestro equipo profesional asegura diagnóstico y cuidado confiable en cada visita.</p></div>
-      <div class="card"><h3>Cirugia veterinaria</h3><p>Realizamos cirugías seguras y profesionales, desde procedimientos de rutina hasta intervenciones complejas, priorizando siempre la salud y recuperación de tu mascota.</p></div>
-      <div class="card"><h3>Corte de uñas e higiene básica</h3><p>Ofrecemos servicios de higiene esencial para tu mascota, incluyendo corte de uñas, limpieza de oídos y cuidados básicos. Garantizamos comodidad y bienestar en cada sesión, con atención profesional y segura.</p></div>
-      <div class="card"><h3>Corte de pelo y estilismo</h3><p>Ofrecemos cortes de pelo y estilismo profesional para mascotas, adaptados a cada raza y necesidad. Garantizamos comodidad, higiene y una apariencia cuidada, siempre con atención especializada.</p></div>
-    </div>
-  </section>
-
-  <section id="professionals">
-    <h2>Nuestros Profesionales</h2>
-    <h3>Veterinarios</h3>
-    <div class="professionals">
-      <div class="card pro-card"><img src="img/vet1.jpg"><strong>Dra. Ana López</strong><p>Veterinaria</p></div>
-      <div class="card pro-card"><img src="img/vet2.jpg"><strong>Dr. Juan Pérez</strong><p>Veterinario</p></div>
-      <div class="card pro-card"><img src="img/vet3.jpg"><strong>Dra. Sofia Alonso</strong><p>Veterinaria</p></div>
-    </div>
-    <h3 style="margin-top:2rem">Estilistas</h3>
-    <div class="professionals">
-      <div class="card pro-card"><img src="img/Est1.png"><strong>María Gómez</strong><p>Estilista</p></div>
-      <div class="card pro-card"><img src="img/Est2.png"><strong>Lautaro Ramírez</strong><p>Estilista</p></div>
-      <div class="card pro-card"><img src="img/Est3.png"><strong>Guillermo Mora</strong><p>Estilista</p></div>
-      <div class="card pro-card"><img src="img/Est4.png"><strong>Lucía Gutierrez</strong><p>Estilista</p></div>
-    </div>
-  </section>
-
-  <section id="booking">
-    <h2>Reservas</h2>
-    <form id="bookingForm">
-      <label>Servicios</label>
-      <select id="service" required>
-        <option value="">Seleccione un Servicio</option>
-        <option>Veterinaria clinica</option>
-        <option>Pet Grooming</option>
-        <option>Bath & Aesthetics</option>
-      </select>
-
-      <label>Profesional</label>
-      <select id="professional" required>
-        <option value="">Seleccione un Profesional</option>
-        <option>Dr. Ana López</option>
-        <option>Dr. Juan Pérez</option>
-        <option>María Gómez</option>
-      </select>
-
-      <label>Fecha</label>
-      <input type="date" id="date" required />
-
-      <label>Turno</label>
-      <select id="time" required>
-        <option value="">Seleccione Turno</option>
-        <option>09:00</option>
-        <option disabled>09:30 (Ocupado)</option>
-        <option>10:00</option>
-        <option>10:30</option>
-      </select>
-
-      <label>Nombre de Cliente</label>
-      <input type="text" required />
-
-      <label>Nombre de Mascota</label>
-      <input type="text" required />
-
-      <label>Tipo de Mascota</label>
-      <select required>
-        <option>Perro</option>
-        <option>Gato</option>
-        <option>Sapo</option>
-        <option>Tortuga</option>
-      </select>
-
-      <label>Telefono</label>
-      <input type="tel" required />
-
-      <label>Email</label>
-      <input type="email" required />
-
-      <button class="btn" type="submit">Confirmar Reserva</button>
-      <div id="message"></div>
-    </form>
-  </section>
-
-<section id="contact" class="ubi">
-  <div>
-    <h2>Ubicación y Contacto</h2>
-    <p>📍 Mercedes y Cuareim</p>
-    <p>📞 2902 1505</p>
-    <div class="redes">
-      <a href="#"><img src="img/instagram.svg"></a>
-      <p>Instagram</p>
-    </div>
-    <div class="redes">
-      <a href="#"><img src="img/facebook.svg"></a>
-      <p>Facebook</p>
-    </div>
-  </div>
-  <div id="imgUbicacion">
-    <img src="img/ubicacion.png" alt="Ubicación">
-  </div>
-</section>
-
-
-</main>
-
-<footer>
-<div class="container">
-  <nav class="navbar">
-
-    <div class="logo">
-      <a href="#">
-        <img src="img/logo.png" alt="Huellas logo" class="logoImg">
-      </a>
-      
-    </div>
-    <div id="footerRedes">
-        <div class="redes">
-          <a href="#"><img src="img/instagram.svg"></a>
-          <p>Instagram</p>
-        </div>
-        <div class="redes">
-          <a href="#"><img src="img/facebook.svg"></a>
-          <p>Facebook</p>
-        </div>
     </div>
 
-    <div class="footer-links">
-      <a href="#services">Servicios</a>
-      <a href="#professionals">Profesionales</a>
-      <a href="#booking">Book</a>
-      <a href="#contact">Contacto</a>
+    <div class="footer-bottom">
+      © 2026 Huellas Veterinaria · Todos los derechos reservados
     </div>
+  </footer>
 
-  </nav>
-</div>
-
-</footer>
-    <script src="js/code.js"></script>
+  <script src="js/code.js"></script>
 </body>
+
 </html>
-
-
