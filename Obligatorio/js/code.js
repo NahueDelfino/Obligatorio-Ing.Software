@@ -20,5 +20,21 @@ bookingForm.addEventListener("submit", e => {
   bookingForm.reset();
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+  const dateInput = document.getElementById("date");
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const minDate = new Date(today);
+  minDate.setDate(today.getDate() + 1); // mañana
+
+  const maxDate = new Date(today);
+  maxDate.setDate(today.getDate() + 15); // +15 días
+
+  dateInput.min = minDate.toISOString().split("T")[0];
+  dateInput.max = maxDate.toISOString().split("T")[0];
+});
+
 function applyFilters() { }
 function downloadCSV() { }

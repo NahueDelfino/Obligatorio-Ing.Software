@@ -122,27 +122,61 @@
 
     <!-- RESERVAS -->
     <section id="booking">
-      <h2>Reservar turno</h2>
+      <h2>Reservas</h2>
+
       <form id="bookingForm">
+
+        <label>Servicio</label>
         <select id="service" required>
+          <option value="">Seleccione un Servicio</option>
           <option>Veterinaria clinica</option>
           <option>Pet Grooming</option>
           <option>Bath & Aesthetics</option>
         </select>
 
-        <select id="professional" required>
+        <label>Profesional</label>
+        <select id="professional">
+          <option value="">Seleccione un Profesional</option>
           <option>Dra. Ana López</option>
           <option>Dr. Juan Pérez</option>
+          <option>María Gómez</option>
         </select>
 
-        <input type="date" id="date" required>
-        <select id="time">
+        <label>Fecha</label>
+        <input type="date" id="date" required />
+
+        <label>Turno</label>
+        <select id="time" required>
+          <option value="">Seleccione Turno</option>
           <option>09:00</option>
+          <option>10:00</option>
+          <option>10:30</option>
+          <option>11:00</option>
         </select>
-        <input type="text" placeholder="Cliente" required>
-        <input type="text" placeholder="Mascota" required>
 
-        <button class="btn">Confirmar</button>
+        <label>Nombre del Cliente</label>
+        <input type="text" id="clientName" required />
+
+        <label>Nombre de la Mascota</label>
+        <input type="text" id="petName" required />
+
+        <label>Tipo de Mascota</label>
+        <select id="petType" required>
+          <option value="">Seleccione</option>
+          <option>Perro</option>
+          <option>Gato</option>
+          <option>Ave</option>
+          <option>Otro</option>
+        </select>
+
+        <label>Teléfono</label>
+        <input type="number" id="phone" required />
+
+        <label>Email</label>
+        <input type="email" id="email" required />
+
+        <button class="btn" type="submit">Confirmar Reserva</button>
+
         <div id="message"></div>
       </form>
     </section>
