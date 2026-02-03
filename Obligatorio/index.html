@@ -1,231 +1,428 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Huellas - Veterinary Clinic</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Huellas | Clínica Veterinaria</title>
-  <link rel="icon" type="image/png" href="img/logo.ico">
-  <link rel="stylesheet" href="css/style.css">
-</head>
+  <body>
+    <div id="root">
+      <!-- HEADER -->
+      <header class="site-header" id="siteHeader">
+        <div class="container">
+          <div class="header-row">
+            <div class="logo">
+              <a class="logo-link" href="#">
+                <div class="logo-badge" aria-hidden="true">
+                  <span class="logo-emoji">🐾</span>
+                </div>
+                <span class="logo-text">Huellas</span>
+              </a>
+            </div>
 
-<body>
+            <nav class="nav-desktop" aria-label="Primary navigation">
+              <a class="nav-link" href="#services">Services</a>
+              <a class="nav-link" href="#professionals">Our Team</a>
+              <a class="nav-link" href="#booking">Book Appointment</a>
+              <a class="nav-link" href="#contact">Contact</a>
+            </nav>
 
-  <header>
-    <div class="container">
-      <nav>
-        <div class="logo">
-          <img src="img/logo.png" alt="Huellas logo" class="logoImg">
-          <span>Huellas</span>
+            <button
+              class="icon-btn nav-toggle"
+              id="mobileMenuBtn"
+              aria-label="Toggle menu"
+              aria-expanded="false"
+              aria-controls="mobileNav"
+              type="button"
+            >
+              <span class="icon" data-icon="menu" aria-hidden="true"></span>
+            </button>
+          </div>
+
+          <nav class="nav-mobile hidden" id="mobileNav" aria-label="Mobile navigation">
+            <a class="nav-mobile-link" href="#services">Services</a>
+            <a class="nav-mobile-link" href="#professionals">Our Team</a>
+            <a class="nav-mobile-link" href="#booking">Book Appointment</a>
+            <a class="nav-mobile-link" href="#contact">Contact</a>
+          </nav>
         </div>
+      </header>
 
-        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+      <main>
+        <!-- HERO -->
+        <section class="hero">
+          <div class="container">
+            <div class="hero-grid">
+              <div class="hero-content">
+                <div>
+                  <h1 class="hero-title">Care for your pet, made simple</h1>
+                  <p class="hero-subtitle">
+                    Professional veterinary care, grooming, and wellness services for your beloved pet.
+                    We're here to keep them healthy and happy.
+                  </p>
+                </div>
 
-        <div id="navLinks">
-          <a href="#services">Servicios</a>
-          <a href="#professionals">Profesionales</a>
-          <a href="#booking">Reservas</a>
-          <a href="#contact">Contacto</a>
-          <a href="#reservasAdmin">Listado de reservas</a>
-          <a href="#" onclick="openLogin()" style="color: var(--green); font-weight:700;">Login</a>
+                <button class="btn btn-hero" type="button" id="heroBookingBtn">
+                  Book an Appointment
+                </button>
+              </div>
+
+              <div class="hero-illustration" aria-hidden="true">
+                <div class="hero-illustration-wrap">
+                  <div class="hero-circle"></div>
+                  <div class="hero-illustration-inner">
+                    <div class="hero-paw">🐾</div>
+                    <p class="hero-illustration-text">Veterinary Care You Can Trust</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SERVICES -->
+        <section id="services" class="section section-white">
+          <div class="container">
+            <div class="section-head">
+              <h2 class="section-title">Our Services</h2>
+              <p class="section-desc">
+                Everything your pet needs for a healthy, happy life
+              </p>
+            </div>
+
+            <div class="grid-3">
+              <article class="card service-card">
+                <div class="icon-box">
+                  <span class="icon icon-primary" data-icon="heart" aria-hidden="true"></span>
+                </div>
+                <h3 class="card-title">Veterinary Care</h3>
+                <p class="card-text">
+                  Comprehensive health checkups, vaccinations, and medical treatments for your pet's wellbeing.
+                </p>
+              </article>
+
+              <article class="card service-card">
+                <div class="icon-box">
+                  <span class="icon icon-primary" data-icon="scissors" aria-hidden="true"></span>
+                </div>
+                <h3 class="card-title">Pet Grooming</h3>
+                <p class="card-text">
+                  Professional grooming services including bathing, brushing, and nail trimming.
+                </p>
+              </article>
+
+              <article class="card service-card">
+                <div class="icon-box">
+                  <span class="icon icon-primary" data-icon="droplet" aria-hidden="true"></span>
+                </div>
+                <h3 class="card-title">Bath &amp; Aesthetics</h3>
+                <p class="card-text">
+                  Spa treatments and aesthetic services to keep your pet looking beautiful and feeling great.
+                </p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <!-- PROFESSIONALS -->
+        <section id="professionals" class="section section-soft">
+          <div class="container">
+            <div class="section-head">
+              <h2 class="section-title">Meet Our Team</h2>
+              <p class="section-desc">Experienced professionals dedicated to your pet's care</p>
+            </div>
+
+            <div class="stack-lg">
+              <div>
+                <h3 class="subsection-title">Veterinarians</h3>
+                <div class="grid-3">
+                  <article class="card prof-card">
+                    <div class="avatar">🐕</div>
+                    <h4 class="prof-name">Dr. María García</h4>
+                    <p class="prof-role">Senior Veterinarian</p>
+                  </article>
+                  <article class="card prof-card">
+                    <div class="avatar">🐈</div>
+                    <h4 class="prof-name">Dr. Carlos López</h4>
+                    <p class="prof-role">General Practice</p>
+                  </article>
+                  <article class="card prof-card">
+                    <div class="avatar">🐾</div>
+                    <h4 class="prof-name">Dr. Ana Rodríguez</h4>
+                    <p class="prof-role">Pediatric Specialist</p>
+                  </article>
+                </div>
+              </div>
+
+              <div>
+                <h3 class="subsection-title">Grooming &amp; Aesthetics</h3>
+                <div class="grid-2 grid-2-narrow">
+                  <article class="card prof-card">
+                    <div class="avatar">✨</div>
+                    <h4 class="prof-name">Sofia Martínez</h4>
+                    <p class="prof-role">Master Groomer</p>
+                  </article>
+                  <article class="card prof-card">
+                    <div class="avatar">💅</div>
+                    <h4 class="prof-name">Lucas Fernández</h4>
+                    <p class="prof-role">Aesthetics Specialist</p>
+                  </article>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- BOOKING -->
+        <section id="booking" class="section section-soft booking scroll-mt-20">
+          <div class="container container-narrow">
+            <div class="section-head">
+              <h2 class="section-title">Book Your Appointment</h2>
+              <p class="section-desc" id="stepIndicator">Step 1 of 3</p>
+            </div>
+
+            <!-- success panel (hidden by default) -->
+            <div class="success-panel hidden" id="bookingSuccess" role="status" aria-live="polite">
+              <div class="success-card">
+                <span class="icon icon-big" data-icon="checkCircle" aria-hidden="true"></span>
+                <div>
+                  <h3 class="success-title">Booking Confirmed!</h3>
+                  <p class="success-text" id="successText"></p>
+                  <p class="success-sub" id="successSub"></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- booking card -->
+            <div class="panel" id="bookingPanel">
+              <!-- STEP 1 -->
+              <div class="step" data-step="1">
+                <div class="field">
+                  <label class="label-lg">Select a Service</label>
+                  <div class="stack-sm" id="serviceList"></div>
+                  <p class="error hidden" data-error-for="serviceType"></p>
+                </div>
+
+                <div class="field hidden" id="professionalField">
+                  <label class="label-lg">Select a Professional</label>
+                  <div class="stack-sm" id="professionalList"></div>
+                  <p class="error hidden" data-error-for="professional"></p>
+                </div>
+              </div>
+
+              <!-- STEP 2 -->
+              <div class="step hidden" data-step="2">
+                <div class="field">
+                  <label class="label-lg">Select a Date</label>
+                  <input class="input" type="date" id="dateInput" />
+                  <p class="error hidden" data-error-for="date"></p>
+                </div>
+
+                <div class="field">
+                  <label class="label-lg">Select a Time Slot</label>
+                  <div class="times-grid" id="timeGrid"></div>
+                  <p class="error hidden" data-error-for="timeSlot"></p>
+                </div>
+              </div>
+
+              <!-- STEP 3 -->
+              <div class="step hidden" data-step="3">
+                <div class="field">
+                  <label class="label-sm" for="ownerName">Owner Name</label>
+                  <input class="input" type="text" id="ownerName" placeholder="Your full name" />
+                  <p class="error hidden" data-error-for="ownerName"></p>
+                </div>
+
+                <div class="field">
+                  <label class="label-sm" for="petName">Pet Name</label>
+                  <input class="input" type="text" id="petName" placeholder="Your pet's name" />
+                  <p class="error hidden" data-error-for="petName"></p>
+                </div>
+
+                <div class="field">
+                  <label class="label-sm" for="petType">Pet Type</label>
+                  <select class="input" id="petType">
+                    <option value="">Select pet type</option>
+                    <option value="dog">Dog</option>
+                    <option value="cat">Cat</option>
+                  </select>
+                  <p class="error hidden" data-error-for="petType"></p>
+                </div>
+
+                <div class="field">
+                  <label class="label-sm" for="phone">Phone Number</label>
+                  <input class="input" type="tel" id="phone" placeholder="+1 (555) 123-4567" />
+                  <p class="error hidden" data-error-for="phone"></p>
+                </div>
+
+                <div class="field">
+                  <label class="label-sm" for="email">Email</label>
+                  <input class="input" type="email" id="email" placeholder="your@email.com" />
+                  <p class="error hidden" data-error-for="email"></p>
+                </div>
+              </div>
+
+              <!-- NAV BUTTONS -->
+              <div class="booking-nav">
+                <button class="btn btn-outline" type="button" id="prevBtn" disabled>
+                  <span class="icon" data-icon="chevronLeft" aria-hidden="true"></span>
+                  Previous
+                </button>
+
+                <button class="btn btn-primary btn-grow" type="button" id="nextBtn">
+                  Next
+                  <span class="icon" data-icon="chevronRight" aria-hidden="true"></span>
+                </button>
+
+                <button class="btn btn-primary btn-grow hidden" type="button" id="confirmBtn">
+                  Confirm Booking
+                </button>
+              </div>
+
+              <!-- SUMMARY -->
+              <div class="summary" id="summaryBox">
+                <p class="hidden" data-sum="service"></p>
+                <p class="hidden" data-sum="professional"></p>
+                <p class="hidden" data-sum="date"></p>
+                <p class="hidden" data-sum="timeSlot"></p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section id="contact" class="section section-white">
+          <div class="container">
+            <div class="section-head">
+              <h2 class="section-title">Get in Touch</h2>
+              <p class="section-desc max-w-2">
+                We're here to answer any questions about your pet's care
+              </p>
+            </div>
+
+            <div class="grid-2 contact-grid">
+              <div class="stack-lg">
+                <div class="info-row">
+                  <span class="icon icon-primary" data-icon="mapPin" aria-hidden="true"></span>
+                  <div>
+                    <h3 class="info-title">Our Location</h3>
+                    <p class="muted">
+                      123 Veterinary Lane<br />
+                      Greenfield, ST 12345<br />
+                      United States
+                    </p>
+                  </div>
+                </div>
+
+                <div class="info-row">
+                  <span class="icon icon-primary" data-icon="phone" aria-hidden="true"></span>
+                  <div>
+                    <h3 class="info-title">Phone</h3>
+                    <p class="muted">
+                      <a class="link" href="tel:+1555123456">+1 (555) 123-456</a>
+                    </p>
+                    <p class="muted small">
+                      Mon-Fri: 9:00 AM - 6:00 PM<br />
+                      Sat: 10:00 AM - 4:00 PM<br />
+                      Sun: Closed
+                    </p>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 class="info-title">Follow Us</h3>
+                  <div class="social-row">
+                    <a class="social-btn" href="https://instagram.com" aria-label="Instagram">
+                      <span class="icon" data-icon="instagram" aria-hidden="true"></span>
+                    </a>
+                    <a class="social-btn" href="https://facebook.com" aria-label="Facebook">
+                      <span class="icon" data-icon="facebook" aria-hidden="true"></span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="map-placeholder">
+                <div class="map-inner">
+                  <span class="icon icon-xl icon-primary" data-icon="mapPin" aria-hidden="true"></span>
+                  <div>
+                    <h3 class="info-title">Visit Us</h3>
+                    <p class="muted mt-2">
+                      123 Veterinary Lane, Greenfield, ST 12345
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- FOOTER -->
+      <footer class="footer">
+        <div class="container footer-pad">
+          <div class="footer-grid">
+            <div class="footer-brand">
+              <div class="footer-brand-row">
+                <div class="footer-badge" aria-hidden="true"><span>🐾</span></div>
+                <span class="footer-name">Huellas</span>
+              </div>
+              <p class="footer-muted">
+                Professional veterinary care for your beloved pets.
+              </p>
+            </div>
+
+            <div>
+              <h4 class="footer-title">Quick Links</h4>
+              <ul class="footer-links">
+                <li><button class="link-btn" type="button" data-scroll="services">Services</button></li>
+                <li><button class="link-btn" type="button" data-scroll="professionals">Our Team</button></li>
+                <li><button class="link-btn" type="button" data-scroll="booking">Book Appointment</button></li>
+                <li><button class="link-btn" type="button" data-scroll="contact">Contact</button></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 class="footer-title">Hours</h4>
+              <ul class="footer-hours">
+                <li>Mon-Fri: 9:00 AM - 6:00 PM</li>
+                <li>Saturday: 10:00 AM - 4:00 PM</li>
+                <li>Sunday: Closed</li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 class="footer-title">Follow Us</h4>
+              <div class="footer-social">
+                <a class="footer-social-btn" href="https://instagram.com" aria-label="Instagram">
+                  <span class="icon" data-icon="instagram" aria-hidden="true"></span>
+                </a>
+                <a class="footer-social-btn" href="https://facebook.com" aria-label="Facebook">
+                  <span class="icon" data-icon="facebook" aria-hidden="true"></span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="footer-divider">
+            <p class="footer-copy" id="copyrightText"></p>
+            <div class="footer-legal">
+              <a class="footer-legal-link" href="#">Privacy Policy</a>
+              <a class="footer-legal-link" href="#">Terms of Service</a>
+            </div>
+          </div>
         </div>
-      </nav>
-    </div>
-  </header>
-
-  <!-- LOGIN MODAL -->
-  <div id="loginModal" class="modal">
-    <div class="modal-content">
-      <h2 class="modal-title">Login</h2>
-
-      <form id="loginForm">
-        <label>Usuario</label>
-        <input type="text" id="adminUser" required>
-
-        <label>Contraseña</label>
-        <input type="password" id="adminPass" required>
-
-        <div id="loginError" class="error"></div>
-
-        <button class="btn btn-full">Login</button>
-        <button type="button" class="btn-cancel" onclick="closeLogin()">Cancelar</button>
-      </form>
-    </div>
-  </div>
-
-  <main class="container">
-
-    <!-- LISTADO ADMIN -->
-    <section id="reservasAdmin">
-      <h2>Listado de Reservas</h2>
-
-      <div class="filters">
-        <input type="date" id="fromDate">
-        <input type="date" id="toDate">
-
-        <select id="filterService">
-          <option value="">Todos</option>
-          <option>Veterinaria clinica</option>
-          <option>Pet Grooming</option>
-          <option>Bath & Aesthetics</option>
-        </select>
-
-        <button class="btn" onclick="applyFilters()">Filtrar</button>
-        <button class="btn" onclick="downloadCSV()">Descargar</button>
-      </div>
-
-      <table class="reservas-table">
-        <thead>
-          <tr>
-            <th>Fecha</th>
-            <th>Hora</th>
-            <th>Servicio</th>
-            <th>Profesional</th>
-            <th>Cliente</th>
-            <th>Mascota</th>
-          </tr>
-        </thead>
-        <tbody id="reservasBody"></tbody>
-      </table>
-    </section>
-
-    <!-- HERO -->
-    <section class="hero">
-      <div class="hero-content">
-        <h1>Cuidamos la salud de tu mascota</h1>
-        <p>Amor, cuidado y salud para tu compañero de vida.</p>
-        <a href="#booking"><button class="btn">Reservar</button></a>
-      </div>
-      <img src="img/principal.jpg" style="width:100%;border-radius:14px;">
-    </section>
-
-    <!-- SERVICIOS -->
-    <section id="services">
-      <h2>Nuestros Servicios</h2>
-      <div class="cards">
-        <div class="card">Veterinaria clínica</div>
-        <div class="card">Cirugía veterinaria</div>
-        <div class="card">Higiene</div>
-        <div class="card">Estética</div>
-      </div>
-    </section>
-
-    <!-- PROFESIONALES -->
-    <section id="professionals">
-      <h2>Profesionales</h2>
-      <div class="professionals">
-        <div class="card pro-card">Dra. Ana López</div>
-        <div class="card pro-card">Dr. Juan Pérez</div>
-        <div class="card pro-card">María Gómez</div>
-      </div>
-    </section>
-
-    <!-- RESERVAS -->
-    <section id="booking">
-      <h2>Reservas</h2>
-
-      <form id="bookingForm">
-
-        <label>Servicio</label>
-        <select id="service" required>
-          <option value="">Seleccione un Servicio</option>
-          <option>Veterinaria clinica</option>
-          <option>Pet Grooming</option>
-          <option>Bath & Aesthetics</option>
-        </select>
-
-        <label>Profesional</label>
-        <select id="professional">
-          <option value="">Seleccione un Profesional</option>
-          <option>Dra. Ana López</option>
-          <option>Dr. Juan Pérez</option>
-          <option>María Gómez</option>
-        </select>
-
-        <label>Fecha</label>
-        <input type="date" id="date" required />
-
-        <label>Turno</label>
-        <select id="time" required>
-          <option value="">Seleccione Turno</option>
-          <option>09:00</option>
-          <option>10:00</option>
-          <option>10:30</option>
-          <option>11:00</option>
-        </select>
-
-        <label>Nombre del Cliente</label>
-        <input type="text" id="clientName" required />
-
-        <label>Nombre de la Mascota</label>
-        <input type="text" id="petName" required />
-
-        <label>Tipo de Mascota</label>
-        <select id="petType" required>
-          <option value="">Seleccione</option>
-          <option>Perro</option>
-          <option>Gato</option>
-          <option>Ave</option>
-          <option>Otro</option>
-        </select>
-
-        <label>Teléfono</label>
-        <input type="number" id="phone" required />
-
-        <label>Email</label>
-        <input type="email" id="email" required />
-
-        <button class="btn" type="submit">Confirmar Reserva</button>
-
-        <div id="message"></div>
-      </form>
-    </section>
-
-  </main>
-
-  <footer id="contact">
-    <div class="container footer-grid">
-
-      <div class="footer-col">
-        <div class="logo footer-logo">
-          <img src="img/logo.png" alt="Huellas logo" class="logoImg">
-          <span>Huellas</span>
-        </div>
-        <p>
-          Clínica veterinaria dedicada al cuidado integral de tu mascota.
-          Atención profesional, humana y cercana.
-        </p>
-      </div>
-
-      <div class="footer-col">
-        <h4>Contacto</h4>
-        <p>📍 Montevideo, Uruguay</p>
-        <p>📞 099 123 456</p>
-        <p>✉️ contacto@huellas.com</p>
-      </div>
-
-      <div class="footer-col">
-        <h4>Horarios</h4>
-        <p>Lunes a Viernes: 9:00 – 18:00</p>
-        <p>Sábados: 9:00 – 13:00</p>
-        <p>Domingos: Cerrado</p>
-      </div>
-
-      <div class="footer-col">
-        <h4>Accesos</h4>
-        <a href="#services">Servicios</a>
-        <a href="#professionals">Profesionales</a>
-        <a href="#booking">Reservas</a>
-      </div>
-
+      </footer>
     </div>
 
-    <div class="footer-bottom">
-      © 2026 Huellas Veterinaria · Todos los derechos reservados
-    </div>
-  </footer>
-
-  <script src="js/code.js"></script>
-</body>
-
+    <script src="./js/code.js"></script>
+  </body>
 </html>
