@@ -1,63 +1,63 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Huellas - Veterinary Clinic</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="./css/style.css" />
-  </head>
 
-  <body>
-    <div id="root">
-      <!-- HEADER -->
-      <header class="site-header" id="siteHeader">
-        <div class="container">
-          <div class="header-row">
-            <div class="logo">
-              <a class="logo-link" href="#">
-                <div class="logo-badge" aria-hidden="true">
-                  <span class="logo-emoji">🐾</span>
-                </div>
-                <span class="logo-text">Huellas</span>
-              </a>
-            </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Huellas - Veterinary Clinic</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
 
-            <nav class="nav-desktop" aria-label="Primary navigation">
-              <a class="nav-link" href="#services">Services</a>
-              <a class="nav-link" href="#professionals">Our Team</a>
-              <a class="nav-link" href="#booking">Book Appointment</a>
-              <a class="nav-link" href="#contact">Contact</a>
-            </nav>
-
-            <button
-              class="icon-btn nav-toggle"
-              id="mobileMenuBtn"
-              aria-label="Toggle menu"
-              aria-expanded="false"
-              aria-controls="mobileNav"
-              type="button"
-            >
-              <span class="icon" data-icon="menu" aria-hidden="true"></span>
-            </button>
+<body>
+  <div id="root">
+    <!-- HEADER -->
+    <header class="site-header" id="siteHeader">
+      <div class="container">
+        <div class="header-row">
+          <div class="logo">
+            <a class="logo-link" href="#">
+              <div class="logo-badge" aria-hidden="true">
+                <span class="logo-emoji">🐾</span>
+              </div>
+              <span class="logo-text">Huellas</span>
+            </a>
           </div>
 
-          <nav class="nav-mobile hidden" id="mobileNav" aria-label="Mobile navigation">
-            <a class="nav-mobile-link" href="#services">Services</a>
-            <a class="nav-mobile-link" href="#professionals">Our Team</a>
-            <a class="nav-mobile-link" href="#booking">Book Appointment</a>
-            <a class="nav-mobile-link" href="#contact">Contact</a>
+          <nav class="nav-desktop" aria-label="Primary navigation">
+            <a class="nav-link" href="#services">Services</a>
+            <a class="nav-link" href="#professionals">Our Team</a>
+            <a class="nav-link" href="#booking">Book Appointment</a>
+            <a class="nav-link" href="#contact">Contact</a>
+            <button class="nav-link nav-btn" type="button" id="openAdminLoginBtn">
+              Admin
+            </button>
           </nav>
-        </div>
-      </header>
 
-      <main>
-        <!-- HERO -->
+
+          <button class="icon-btn nav-toggle" id="mobileMenuBtn" aria-label="Toggle menu" aria-expanded="false"
+            aria-controls="mobileNav" type="button">
+            <span class="icon" data-icon="menu" aria-hidden="true"></span>
+          </button>
+        </div>
+
+        <nav class="nav-mobile hidden" id="mobileNav" aria-label="Mobile navigation">
+          <a class="nav-mobile-link" href="#services">Services</a>
+          <a class="nav-mobile-link" href="#professionals">Our Team</a>
+          <a class="nav-mobile-link" href="#booking">Book Appointment</a>
+          <a class="nav-mobile-link" href="#contact">Contact</a>
+          <button class="nav-mobile-link nav-btn" type="button" id="openAdminLoginBtnMobile">
+            Admin
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <!-- HERO -->
+      <div id="publicApp">
         <section class="hero">
           <div class="container">
             <div class="hero-grid">
@@ -364,65 +364,147 @@
             </div>
           </div>
         </section>
-      </main>
+      </div>
+      <!-- ADMIN -->
 
-      <!-- FOOTER -->
-      <footer class="footer">
-        <div class="container footer-pad">
-          <div class="footer-grid">
-            <div class="footer-brand">
-              <div class="footer-brand-row">
-                <div class="footer-badge" aria-hidden="true"><span>🐾</span></div>
-                <span class="footer-name">Huellas</span>
-              </div>
-              <p class="footer-muted">
-                Professional veterinary care for your beloved pets.
-              </p>
+      <section id="admin" class="hidden section section-soft scroll-mt-20">
+        <div class="container container-narrow">
+          <div class="section-head">
+            <h2 class="section-title">Admin</h2>            
+          </div>          
+
+          <!-- Dashboard panel -->
+          <div class="panel hidden" id="adminDashboard">
+            <div class="admin-top">
+              <p class="admin-welcome" id="adminWelcome"></p>
+              <button class="btn btn-outline" type="button" id="adminLogoutBtn">Log out</button>
             </div>
 
-            <div>
-              <h4 class="footer-title">Quick Links</h4>
-              <ul class="footer-links">
-                <li><button class="link-btn" type="button" data-scroll="services">Services</button></li>
-                <li><button class="link-btn" type="button" data-scroll="professionals">Our Team</button></li>
-                <li><button class="link-btn" type="button" data-scroll="booking">Book Appointment</button></li>
-                <li><button class="link-btn" type="button" data-scroll="contact">Contact</button></li>
-              </ul>
+            <div class="admin-actions">
+              <button class="btn btn-outline" type="button" id="adminRefreshBtn">Refresh</button>
+              <button class="btn btn-outline" type="button" id="adminClearBtn">Clear all</button>
             </div>
 
-            <div>
-              <h4 class="footer-title">Hours</h4>
-              <ul class="footer-hours">
-                <li>Mon-Fri: 9:00 AM - 6:00 PM</li>
-                <li>Saturday: 10:00 AM - 4:00 PM</li>
-                <li>Sunday: Closed</li>
-              </ul>
+            <div class="admin-table-wrap">
+              <table class="admin-table" aria-label="Bookings list">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Service</th>
+                    <th>Professional</th>
+                    <th>Owner</th>
+                    <th>Pet</th>
+                    <th>Type</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="adminBookingsBody"></tbody>
+              </table>
             </div>
 
-            <div>
-              <h4 class="footer-title">Follow Us</h4>
-              <div class="footer-social">
-                <a class="footer-social-btn" href="https://instagram.com" aria-label="Instagram">
-                  <span class="icon" data-icon="instagram" aria-hidden="true"></span>
-                </a>
-                <a class="footer-social-btn" href="https://facebook.com" aria-label="Facebook">
-                  <span class="icon" data-icon="facebook" aria-hidden="true"></span>
-                </a>
-              </div>
+            <p class="muted small" id="adminEmptyState"></p>
+          </div>
+        </div>
+      </section>
+    </main>
+    <!-- FOOTER -->
+    <footer class="footer" id="siteFooter">
+      <div class="container footer-pad">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <div class="footer-brand-row">
+              <div class="footer-badge" aria-hidden="true"><span>🐾</span></div>
+              <span class="footer-name">Huellas</span>
             </div>
+            <p class="footer-muted">
+              Professional veterinary care for your beloved pets.
+            </p>
           </div>
 
-          <div class="footer-divider">
-            <p class="footer-copy" id="copyrightText"></p>
-            <div class="footer-legal">
-              <a class="footer-legal-link" href="#">Privacy Policy</a>
-              <a class="footer-legal-link" href="#">Terms of Service</a>
+          <div>
+            <h4 class="footer-title">Quick Links</h4>
+            <ul class="footer-links">
+              <li><button class="link-btn" type="button" data-scroll="services">Services</button></li>
+              <li><button class="link-btn" type="button" data-scroll="professionals">Our Team</button></li>
+              <li><button class="link-btn" type="button" data-scroll="booking">Book Appointment</button></li>
+              <li><button class="link-btn" type="button" data-scroll="contact">Contact</button></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="footer-title">Hours</h4>
+            <ul class="footer-hours">
+              <li>Mon-Fri: 9:00 AM - 6:00 PM</li>
+              <li>Saturday: 10:00 AM - 4:00 PM</li>
+              <li>Sunday: Closed</li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="footer-title">Follow Us</h4>
+            <div class="footer-social">
+              <a class="footer-social-btn" href="https://instagram.com" aria-label="Instagram">
+                <span class="icon" data-icon="instagram" aria-hidden="true"></span>
+              </a>
+              <a class="footer-social-btn" href="https://facebook.com" aria-label="Facebook">
+                <span class="icon" data-icon="facebook" aria-hidden="true"></span>
+              </a>
             </div>
           </div>
         </div>
-      </footer>
+
+        <div class="footer-divider">
+          <p class="footer-copy" id="copyrightText"></p>
+          <div class="footer-legal">
+            <a class="footer-legal-link" href="#">Privacy Policy</a>
+            <a class="footer-legal-link" href="#">Terms of Service</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <div class="modal hidden" id="adminLoginModal" role="dialog" aria-modal="true" aria-labelledby="adminModalTitle">
+  <div class="modal-backdrop" data-close-modal="true"></div>
+
+  <div class="modal-card" role="document">
+    <div class="modal-head">
+      <h3 class="modal-title" id="adminModalTitle">Admin Login</h3>
+      <button class="icon-btn" type="button" id="closeAdminLoginBtn" aria-label="Close">
+        <span class="icon" data-icon="x" aria-hidden="true"></span>
+      </button>
     </div>
 
-    <script src="./js/code.js"></script>
-  </body>
+    <div class="modal-body">
+      <div class="field">
+        <label class="label-sm" for="adminEmail">Email</label>
+        <input class="input" type="email" id="adminEmail" placeholder="admin@huellas.com" />
+        <p class="error hidden" id="adminEmailError"></p>
+      </div>
+
+      <div class="field">
+        <label class="label-sm" for="adminPassword">Password</label>
+        <input class="input" type="password" id="adminPassword" placeholder="••••••••" />
+        <p class="error hidden" id="adminPasswordError"></p>
+      </div>
+
+      <div class="booking-nav">
+        <button class="btn btn-primary btn-grow" type="button" id="adminLoginBtn">
+          Log in
+        </button>
+      </div>
+
+      <p class="muted small">
+        Demo: <strong>admin@huellas.com</strong> / <strong>admin123</strong>
+      </p>
+    </div>
+  </div>
+</div>
+
+  <script src="./js/code.js"></script>
+</body>
+
 </html>

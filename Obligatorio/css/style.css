@@ -1,4 +1,4 @@
-/* Tokens / theme (equivalente a global.css) */
+/* Tokens / theme */
 :root {
   --background: 0 0% 100%;
   --foreground: 153 31% 16%;
@@ -683,4 +683,122 @@ code {
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
+}
+
+.admin-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.admin-welcome {
+  margin: 0;
+  font-weight: 700;
+}
+
+.admin-actions {
+  display: flex;
+  gap: .75rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.admin-table-wrap {
+  overflow-x: auto;
+  border: 1px solid hsl(var(--border));
+  border-radius: .75rem;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 980px;
+  background: white;
+}
+
+.admin-table th,
+.admin-table td {
+  padding: .75rem .75rem;
+  text-align: left;
+  border-bottom: 1px solid hsl(var(--border));
+  vertical-align: top;
+  font-size: .875rem;
+}
+
+.admin-table th {
+  background: hsl(var(--secondary) / .50);
+  font-weight: 800;
+}
+
+.admin-table tr:hover td {
+  background: hsl(var(--secondary) / .25);
+}
+
+.btn-danger {
+  background: hsl(var(--destructive));
+  color: white;
+}
+.btn-danger:hover { background: hsl(var(--destructive) / .90); }
+
+/* Modal */
+.modal.hidden { display: none; }
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.45);
+}
+
+.modal-card {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  background: white;
+  border: 1px solid hsl(var(--border));
+  border-radius: 1rem;
+  box-shadow: 0 20px 60px rgba(0,0,0,.2);
+  overflow: hidden;
+}
+
+.modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1rem;
+  border-bottom: 1px solid hsl(var(--border));
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+.modal-body {
+  padding: 1rem 1rem 1.25rem;
+}
+
+.nav-btn {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+  color: inherit;
+}
+
+/* Si tu .nav-link está en <a>, este refuerzo hace que <button> se vea igual */
+.nav-desktop .nav-btn.nav-link {
+  padding: 0;
 }
