@@ -1,40 +1,1002 @@
-function toggleMenu() {
-  document.getElementById("navLinks").classList.toggle("show");
-}
+(function () {
+  // -----------------------------
+  // Helpers (igual que tu base)
+  // -----------------------------
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
-function openLogin() {
-  document.getElementById("loginModal").style.display = "flex";
-}
+  function scrollToId(id) {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+  }
 
-function closeLogin() {
-  document.getElementById("loginModal").style.display = "none";
-}
+  function uid() {
+    return (
+      crypto?.randomUUID?.() ||
+      `id_${Date.now()}_${Math.random().toString(16).slice(2)}`
+    );
+  }
 
-const bookingForm = document.getElementById("bookingForm");
-const message = document.getElementById("message");
+  function escapeHtml(str) {
+    return String(str)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
 
-bookingForm.addEventListener("submit", e => {
-  e.preventDefault();
-  message.textContent = "Reserva realizada con éxito";
-  message.style.color = "green";
-  bookingForm.reset();
-});
+  // -----------------------------
+  // Simple SVG icon set (igual que tu base)
+  // -----------------------------
+  const ICONS = {
+    menu: `
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <line x1="4" y1="6" x2="20" y2="6"></line>
+        <line x1="4" y1="12" x2="20" y2="12"></line>
+        <line x1="4" y1="18" x2="20" y2="18"></line>
+      </svg>
+    `,
+    x: `
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    `,
+    chevronRight: `
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    `,
+    chevronLeft: `
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+    `,
+    checkCircle: `
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="12" r="10"></circle>
+        <path d="M9 12l2 2 4-4"></path>
+      </svg>
+    `,
+    heart: `
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M20.8 4.6c-1.6-1.6-4.1-1.6-5.7 0L12 7.7 8.9 4.6c-1.6-1.6-4.1-1.6-5.7 0s-1.6 4.1 0 5.7L12 21l8.8-10.7c1.6-1.6 1.6-4.1 0-5.7z"></path>
+      </svg>
+    `,
+    scissors: `
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="6" cy="6" r="3"></circle>
+        <circle cx="6" cy="18" r="3"></circle>
+        <line x1="20" y1="4" x2="8.8" y2="15.2"></line>
+        <line x1="20" y1="20" x2="8.8" y2="8.8"></line>
+      </svg>
+    `,
+    droplet: `
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 2s7 7.2 7 13a7 7 0 0 1-14 0c0-5.8 7-13 7-13z"></path>
+      </svg>
+    `,
+    mapPin: `
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"></path>
+        <circle cx="12" cy="10" r="3"></circle>
+      </svg>
+    `,
+    phone: `
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M22 16.9v3a2 2 0 0 1-2.2 2A19.8 19.8 0 0 1 3 5.2 2 2 0 0 1 5 3h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L9 10.9a16 16 0 0 0 4.1 4.1l1.4-1.1a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6A2 2 0 0 1 22 16.9z"></path>
+      </svg>
+    `,
+    instagram: `
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="2" y="2" width="20" height="20" rx="5"></rect>
+        <circle cx="12" cy="12" r="4"></circle>
+        <circle cx="18" cy="6" r="1"></circle>
+      </svg>
+    `,
+    facebook: `
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M14 9h3V6h-3c-2.2 0-4 1.8-4 4v3H7v3h3v7h3v-7h3l1-3h-4v-3c0-.6.4-1 1-1z"></path>
+      </svg>
+    `,
+  };
 
-document.addEventListener("DOMContentLoaded", () => {
-  const dateInput = document.getElementById("date");
+  function injectIcons() {
+    $$("[data-icon]").forEach((el) => {
+      const name = el.getAttribute("data-icon");
+      if (!name || !ICONS[name]) return;
+      el.innerHTML = ICONS[name];
+    });
+  }
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  // -----------------------------
+  // Datos (mismos que React)
+  // -----------------------------
+  const services = [
+    { id: "vet-care", name: "Veterinary Care" },
+    { id: "grooming", name: "Pet Grooming" },
+    { id: "bath", name: "Bath & Aesthetics" },
+  ];
 
-  const minDate = new Date(today);
-  minDate.setDate(today.getDate() + 1); // mañana
+  const professionalsByService = {
+    "vet-care": ["Dr. María García", "Dr. Carlos López", "Dr. Ana Rodríguez"],
+    grooming: ["Sofia Martínez", "Lucas Fernández"],
+    bath: ["Sofia Martínez", "Lucas Fernández"],
+  };
 
-  const maxDate = new Date(today);
-  maxDate.setDate(today.getDate() + 15); // +15 días
+  const timeSlots = [
+    "09:00",
+    "09:30",
+    "10:00",
+    "10:30",
+    "11:00",
+    "11:30",
+    "14:00",
+    "14:30",
+    "15:00",
+    "15:30",
+    "16:00",
+    "16:30",
+  ];
 
-  dateInput.min = minDate.toISOString().split("T")[0];
-  dateInput.max = maxDate.toISOString().split("T")[0];
-});
+  function getAvailableDates() {
+    const dates = [];
+    const today = new Date();
+    for (let i = 1; i <= 15; i++) {
+      const d = new Date(today);
+      d.setDate(d.getDate() + i);
+      dates.push(d.toISOString().split("T")[0]);
+    }
+    return dates;
+  }
 
-function applyFilters() { }
-function downloadCSV() { }
+  // -----------------------------
+  // Services (Storage / Repo / Auth) - POO
+  // -----------------------------
+  class StorageService {
+    constructor(namespace) {
+      this.ns = namespace || "app";
+    }
+    key(k) {
+      return `${this.ns}:${k}`;
+    }
+    read(k, fallback) {
+      try {
+        const raw = localStorage.getItem(this.key(k));
+        return raw ? JSON.parse(raw) : fallback;
+      } catch {
+        return fallback;
+      }
+    }
+    write(k, value) {
+      localStorage.setItem(this.key(k), JSON.stringify(value));
+    }
+    remove(k) {
+      localStorage.removeItem(this.key(k));
+    }
+  }
+
+  class BookingRepository {
+    constructor(storage) {
+      this.storage = storage;
+      this.KEY = "bookings";
+      this.DRAFT = "bookingDraft";
+    }
+    list() {
+      return this.storage.read(this.KEY, []);
+    }
+    add(booking) {
+      const list = this.list();
+      list.unshift(booking);
+      this.storage.write(this.KEY, list);
+      return booking;
+    }
+    removeById(id) {
+      const next = this.list().filter((b) => b.id !== id);
+      this.storage.write(this.KEY, next);
+    }
+    clearAll() {
+      this.storage.write(this.KEY, []);
+    }
+    saveDraft(draft) {
+      this.storage.write(this.DRAFT, draft);
+    }
+    loadDraft() {
+      return this.storage.read(this.DRAFT, null);
+    }
+    clearDraft() {
+      this.storage.remove(this.DRAFT);
+    }
+  }
+
+  class AuthService {
+    constructor(storage) {
+      this.storage = storage;
+      this.SESSION = "adminSession";
+      this.demo = { email: "admin@huellas.com", password: "admin123" };
+    }
+    isLoggedIn() {
+      return !!this.storage.read(this.SESSION, null);
+    }
+    currentUser() {
+      return this.storage.read(this.SESSION, null);
+    }
+    login(email, password) {
+      if (email === this.demo.email && password === this.demo.password) {
+        const session = { email, loggedAt: new Date().toISOString() };
+        this.storage.write(this.SESSION, session);
+        return { ok: true, session };
+      }
+      return { ok: false, message: "Invalid credentials" };
+    }
+    logout() {
+      this.storage.remove(this.SESSION);
+    }
+  }
+
+  // -----------------------------
+  // Header / Footer / Hero - UI
+  // -----------------------------
+  class HeaderUI {
+    mount() {
+      this.btn = $("#mobileMenuBtn");
+      this.nav = $("#mobileNav");
+      if (!this.btn || !this.nav) return;
+
+      const setOpen = (open) => {
+        this.nav.classList.toggle("hidden", !open);
+        this.btn.setAttribute("aria-expanded", String(open));
+        const iconHost = this.btn.querySelector("[data-icon]");
+        if (iconHost) iconHost.setAttribute("data-icon", open ? "x" : "menu");
+        injectIcons();
+        document.body.style.overflow = open ? "hidden" : "";
+      };
+
+      this.btn.addEventListener("click", () => {
+        const isOpen = this.btn.getAttribute("aria-expanded") === "true";
+        setOpen(!isOpen);
+      });
+
+      $$(".nav-mobile-link", this.nav).forEach((a) => {
+        a.addEventListener("click", () => setOpen(false));
+      });
+
+      window.addEventListener("resize", () => {
+        if (window.innerWidth >= 768) setOpen(false);
+      });
+    }
+  }
+
+  class FooterUI {
+    mount() {
+      const year = new Date().getFullYear();
+      const ct = $("#copyrightText");
+      if (ct)
+        ct.textContent = `© ${year} Huellas Veterinary Clinic. All rights reserved.`;
+
+      $$("[data-scroll]").forEach((btn) => {
+        btn.addEventListener("click", () =>
+          scrollToId(btn.getAttribute("data-scroll"))
+        );
+      });
+    }
+  }
+
+  class HeroUI {
+    mount() {
+      const btn = $("#heroBookingBtn");
+      if (!btn) return;
+      btn.addEventListener("click", () => scrollToId("booking"));
+    }
+  }
+
+  // -----------------------------
+  // Booking Wizard UI (POO) + LocalStorage bookings
+  // -----------------------------
+  class BookingWizardUI {
+    constructor(repo) {
+      this.repo = repo;
+      this.currentStep = 1;
+      this.formData = {
+        serviceType: "",
+        professional: "",
+        date: "",
+        timeSlot: "",
+        ownerName: "",
+        petName: "",
+        petType: "",
+        phone: "",
+        email: "",
+      };
+    }
+
+    mount() {
+      this.panel = $("#bookingPanel");
+      if (!this.panel) return;
+
+      this.stepIndicator = $("#stepIndicator");
+      this.steps = $$(".step", this.panel);
+
+      this.prevBtn = $("#prevBtn");
+      this.nextBtn = $("#nextBtn");
+      this.confirmBtn = $("#confirmBtn");
+
+      this.serviceList = $("#serviceList");
+      this.professionalField = $("#professionalField");
+      this.professionalList = $("#professionalList");
+
+      this.dateInput = $("#dateInput");
+      this.timeGrid = $("#timeGrid");
+
+      this.ownerName = $("#ownerName");
+      this.petName = $("#petName");
+      this.petType = $("#petType");
+      this.phone = $("#phone");
+      this.email = $("#email");
+
+      this.successWrap = $("#bookingSuccess");
+      this.successText = $("#successText");
+      this.successSub = $("#successSub");
+
+      this.summaryBox = $("#summaryBox");
+      this.sumService = this.summaryBox
+        ? $('[data-sum="service"]', this.summaryBox)
+        : null;
+      this.sumProfessional = this.summaryBox
+        ? $('[data-sum="professional"]', this.summaryBox)
+        : null;
+      this.sumDate = this.summaryBox
+        ? $('[data-sum="date"]', this.summaryBox)
+        : null;
+      this.sumTime = this.summaryBox
+        ? $('[data-sum="timeSlot"]', this.summaryBox)
+        : null;
+
+      const draft = this.repo.loadDraft();
+      if (draft) {
+        this.currentStep = draft.currentStep || 1;
+        this.formData = { ...this.formData, ...draft.formData };
+      }
+
+      this.setDateBounds();
+      this.renderServices();
+      this.renderProfessionals();
+      this.renderTimes();
+      this.hydrateInputs();
+      this.renderSummary();
+      this.renderStep();
+      this.bindEvents();
+    }
+
+    persistDraft() {
+      this.repo.saveDraft({
+        currentStep: this.currentStep,
+        formData: { ...this.formData },
+      });
+    }
+
+    hydrateInputs() {
+      if (this.dateInput) this.dateInput.value = this.formData.date || "";
+      if (this.ownerName) this.ownerName.value = this.formData.ownerName || "";
+      if (this.petName) this.petName.value = this.formData.petName || "";
+      if (this.petType) this.petType.value = this.formData.petType || "";
+      if (this.phone) this.phone.value = this.formData.phone || "";
+      if (this.email) this.email.value = this.formData.email || "";
+    }
+
+    setError(key, message) {
+      const p = $(`[data-error-for="${key}"]`, this.panel);
+      const inputEl =
+        key === "date"
+          ? this.dateInput
+          : key === "ownerName"
+          ? this.ownerName
+          : key === "petName"
+          ? this.petName
+          : key === "petType"
+          ? this.petType
+          : key === "phone"
+          ? this.phone
+          : key === "email"
+          ? this.email
+          : null;
+
+      if (p) {
+        p.textContent = message || "";
+        p.classList.toggle("hidden", !message);
+      }
+      if (inputEl) inputEl.classList.toggle("error-border", !!message);
+    }
+
+    clearErrors() {
+      [
+        "serviceType",
+        "professional",
+        "date",
+        "timeSlot",
+        "ownerName",
+        "petName",
+        "petType",
+        "phone",
+        "email",
+      ].forEach((k) => this.setError(k, ""));
+    }
+
+    validateStep(step) {
+      this.clearErrors();
+      let ok = true;
+
+      if (step === 1) {
+        if (!this.formData.serviceType) {
+          this.setError("serviceType", "Please select a service");
+          ok = false;
+        }
+        if (!this.formData.professional) {
+          this.setError("professional", "Please select a professional");
+          ok = false;
+        }
+      }
+      if (step === 2) {
+        if (!this.formData.date) {
+          this.setError("date", "Please select a date");
+          ok = false;
+        }
+        if (!this.formData.timeSlot) {
+          this.setError("timeSlot", "Please select a time");
+          ok = false;
+        }
+      }
+      if (step === 3) {
+        if (!this.formData.ownerName.trim()) {
+          this.setError("ownerName", "Owner name is required");
+          ok = false;
+        }
+        if (!this.formData.petName.trim()) {
+          this.setError("petName", "Pet name is required");
+          ok = false;
+        }
+        if (!this.formData.petType) {
+          this.setError("petType", "Please select pet type");
+          ok = false;
+        }
+
+        if (!this.formData.phone.trim()) {
+          this.setError("phone", "Phone number is required");
+          ok = false;
+        } else {
+          const digits = this.formData.phone.replace(/\D/g, "");
+          if (!/^\d{7,}$/.test(digits)) {
+            this.setError("phone", "Please enter a valid phone number");
+            ok = false;
+          }
+        }
+
+        if (!this.formData.email.trim()) {
+          this.setError("email", "Email is required");
+          ok = false;
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.formData.email)) {
+          this.setError("email", "Please enter a valid email");
+          ok = false;
+        }
+      }
+
+      return ok;
+    }
+
+    renderStep() {
+      this.steps.forEach((s) => {
+        const n = Number(s.getAttribute("data-step"));
+        s.classList.toggle("hidden", n !== this.currentStep);
+      });
+
+      if (this.stepIndicator)
+        this.stepIndicator.textContent = `Step ${this.currentStep} of 3`;
+      if (this.prevBtn) this.prevBtn.disabled = this.currentStep === 1;
+
+      const isLast = this.currentStep === 3;
+      if (this.nextBtn) this.nextBtn.classList.toggle("hidden", isLast);
+      if (this.confirmBtn) this.confirmBtn.classList.toggle("hidden", !isLast);
+    }
+
+    renderServices() {
+      if (!this.serviceList) return;
+      this.serviceList.innerHTML = "";
+
+      services.forEach((s) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "choice-btn";
+        btn.textContent = s.name;
+        btn.classList.toggle("selected", this.formData.serviceType === s.id);
+
+        btn.addEventListener("click", () => {
+          this.formData.serviceType = s.id;
+          this.formData.professional = "";
+          this.setError("serviceType", "");
+          this.setError("professional", "");
+          this.renderServices();
+          this.renderProfessionals();
+          this.renderSummary();
+          this.persistDraft();
+        });
+
+        this.serviceList.appendChild(btn);
+      });
+    }
+
+    renderProfessionals() {
+      if (!this.professionalField || !this.professionalList) return;
+
+      const profs = professionalsByService[this.formData.serviceType] || [];
+      const show = !!this.formData.serviceType;
+      this.professionalField.classList.toggle("hidden", !show);
+
+      this.professionalList.innerHTML = "";
+      profs.forEach((name) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "choice-btn";
+        btn.textContent = name;
+        btn.classList.toggle("selected", this.formData.professional === name);
+
+        btn.addEventListener("click", () => {
+          this.formData.professional = name;
+          this.setError("professional", "");
+          this.renderProfessionals();
+          this.renderSummary();
+          this.persistDraft();
+        });
+
+        this.professionalList.appendChild(btn);
+      });
+    }
+
+    renderTimes() {
+      if (!this.timeGrid) return;
+      this.timeGrid.innerHTML = "";
+
+      timeSlots.forEach((t) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "time-btn";
+        btn.textContent = t;
+        btn.classList.toggle("selected", this.formData.timeSlot === t);
+
+        btn.addEventListener("click", () => {
+          this.formData.timeSlot = t;
+          this.setError("timeSlot", "");
+          this.renderTimes();
+          this.renderSummary();
+          this.persistDraft();
+        });
+
+        this.timeGrid.appendChild(btn);
+      });
+    }
+
+    renderSummary() {
+      if (!this.summaryBox) return;
+
+      const serviceName =
+        services.find((s) => s.id === this.formData.serviceType)?.name || "";
+
+      const setSum = (el, visible, html) => {
+        if (!el) return;
+        el.classList.toggle("hidden", !visible);
+        el.innerHTML = html;
+      };
+
+      setSum(
+        this.sumService,
+        !!this.formData.serviceType,
+        `<strong>Service:</strong> ${escapeHtml(serviceName)}`
+      );
+      setSum(
+        this.sumProfessional,
+        !!this.formData.professional,
+        `<strong>Professional:</strong> ${escapeHtml(
+          this.formData.professional
+        )}`
+      );
+      setSum(
+        this.sumDate,
+        !!this.formData.date,
+        `<strong>Date:</strong> ${escapeHtml(this.formData.date)}`
+      );
+      setSum(
+        this.sumTime,
+        !!this.formData.timeSlot,
+        `<strong>Time:</strong> ${escapeHtml(this.formData.timeSlot)}`
+      );
+    }
+
+    setDateBounds() {
+      if (!this.dateInput) return;
+      const dates = getAvailableDates();
+      this.dateInput.min = dates[0];
+      this.dateInput.max = dates[dates.length - 1];
+    }
+
+    bindEvents() {
+      if (this.dateInput) {
+        this.dateInput.addEventListener("change", (e) => {
+          this.formData.date = e.target.value;
+          this.setError("date", "");
+          this.renderSummary();
+          this.persistDraft();
+        });
+      }
+
+      const bindTextInput = (el, key) => {
+        if (!el) return;
+        el.addEventListener("input", (e) => {
+          this.formData[key] = e.target.value;
+          this.setError(key, "");
+          this.persistDraft();
+        });
+      };
+
+      bindTextInput(this.ownerName, "ownerName");
+      bindTextInput(this.petName, "petName");
+      bindTextInput(this.phone, "phone");
+      bindTextInput(this.email, "email");
+
+      if (this.petType) {
+        this.petType.addEventListener("change", (e) => {
+          this.formData.petType = e.target.value;
+          this.setError("petType", "");
+          this.persistDraft();
+        });
+      }
+
+      if (this.prevBtn) {
+        this.prevBtn.addEventListener("click", () => {
+          if (this.currentStep > 1) {
+            this.currentStep -= 1;
+            this.clearErrors();
+            this.renderStep();
+            this.persistDraft();
+          }
+        });
+      }
+
+      if (this.nextBtn) {
+        this.nextBtn.addEventListener("click", () => {
+          if (this.validateStep(this.currentStep)) {
+            this.currentStep += 1;
+            this.renderStep();
+            this.persistDraft();
+          }
+        });
+      }
+
+      if (this.confirmBtn) {
+        this.confirmBtn.addEventListener("click", () => {
+          if (!this.validateStep(3)) return;
+
+          const booking = {
+            id: uid(),
+            serviceType: this.formData.serviceType,
+            serviceName:
+              services.find((s) => s.id === this.formData.serviceType)?.name ||
+              "",
+            professional: this.formData.professional,
+            date: this.formData.date,
+            timeSlot: this.formData.timeSlot,
+            ownerName: this.formData.ownerName,
+            petName: this.formData.petName,
+            petType: this.formData.petType,
+            phone: this.formData.phone,
+            email: this.formData.email,
+            createdAt: new Date().toISOString(),
+          };
+
+          this.repo.add(booking);
+          this.repo.clearDraft();
+
+          this.showSuccess();
+
+          window.setTimeout(() => {
+            this.formData = {
+              serviceType: "",
+              professional: "",
+              date: "",
+              timeSlot: "",
+              ownerName: "",
+              petName: "",
+              petType: "",
+              phone: "",
+              email: "",
+            };
+
+            this.currentStep = 1;
+
+            this.hydrateInputs();
+            this.clearErrors();
+            this.renderServices();
+            this.renderProfessionals();
+            this.renderTimes();
+            this.renderSummary();
+            this.renderStep();
+
+            if (this.successWrap) this.successWrap.classList.add("hidden");
+            if (this.panel) this.panel.classList.remove("hidden");
+          }, 3000);
+        });
+      }
+    }
+
+    showSuccess() {
+      if (!this.successWrap || !this.successText || !this.successSub) return;
+
+      const owner = this.formData.ownerName.trim();
+      const pet = this.formData.petName.trim();
+
+      this.successText.textContent = `Thank you, ${owner}! Your appointment for ${pet} has been confirmed.`;
+      this.successSub.textContent = `We'll send a confirmation email to ${this.formData.email}`;
+
+      this.successWrap.classList.remove("hidden");
+      this.panel.classList.add("hidden");
+    }
+  }
+
+  class AppShell {
+    constructor(auth) {
+      this.auth = auth;
+      this.publicApp = $("#publicApp");
+      this.adminSection = $("#admin");
+      this.footer = $("#siteFooter");
+    }
+
+    syncFromSession() {
+      this.setAdminMode(this.auth.isLoggedIn());
+    }
+
+    setAdminMode(isAdmin) {
+      if (this.publicApp) this.publicApp.classList.toggle("hidden", isAdmin);
+      if (this.footer) this.footer.classList.toggle("hidden", isAdmin);
+      if (this.adminSection) this.adminSection.classList.toggle("hidden", !isAdmin);
+      if (isAdmin) window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  class AdminLoginModalUI {
+    constructor(auth, shell) {
+      this.auth = auth;
+      this.shell = shell;
+    }
+
+    mount() {
+      this.modal = $("#adminLoginModal");
+      if (!this.modal) return;
+
+      this.openBtn = $("#openAdminLoginBtn");
+      this.openBtnMobile = $("#openAdminLoginBtnMobile");
+      this.closeBtn = $("#closeAdminLoginBtn");
+
+      this.email = $("#adminEmail");
+      this.password = $("#adminPassword");
+      this.emailError = $("#adminEmailError");
+      this.passwordError = $("#adminPasswordError");
+      this.loginBtn = $("#adminLoginBtn");
+
+      const open = (e) => {
+        e?.preventDefault?.();
+        this.open();
+      };
+      this.openBtn?.addEventListener("click", open);
+      this.openBtnMobile?.addEventListener("click", open);
+
+      this.closeBtn?.addEventListener("click", () => this.close());
+      this.modal.addEventListener("click", (e) => {
+        const target = e.target;
+        if (target?.matches?.("[data-close-modal='true']")) this.close();
+      });
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && !this.modal.classList.contains("hidden")) this.close();
+      });
+
+      this.loginBtn?.addEventListener("click", () => this.handleLogin());
+      this.password?.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") this.handleLogin();
+      });
+    }
+
+    setFieldError(el, message) {
+      if (!el) return;
+      el.textContent = message || "";
+      el.classList.toggle("hidden", !message);
+    }
+
+    clearErrors() {
+      this.setFieldError(this.emailError, "");
+      this.setFieldError(this.passwordError, "");
+    }
+
+    open() {
+      if (!this.modal) return;
+      this.clearErrors();
+      this.modal.classList.remove("hidden");
+      document.body.style.overflow = "hidden";
+      injectIcons();
+      this.email?.focus?.();
+    }
+
+    close() {
+      if (!this.modal) return;
+      this.modal.classList.add("hidden");
+      document.body.style.overflow = "";
+    }
+
+    handleLogin() {
+      const email = (this.email?.value || "").trim();
+      const password = (this.password?.value || "").trim();
+
+      this.clearErrors();
+
+      let ok = true;
+      if (!email) {
+        this.setFieldError(this.emailError, "Email is required");
+        ok = false;
+      }
+      if (!password) {
+        this.setFieldError(this.passwordError, "Password is required");
+        ok = false;
+      }
+      if (!ok) return;
+
+      const res = this.auth.login(email, password);
+      if (!res.ok) {
+        this.setFieldError(this.passwordError, "Invalid email or password");
+        return;
+      }
+
+      if (this.password) this.password.value = "";
+      this.close();
+      this.shell.setAdminMode(true);
+
+      window.dispatchEvent(new CustomEvent("huellas:admin:login"));
+    }
+  }
+
+  class AdminUI {
+    constructor(auth, repo, shell) {
+      this.auth = auth;
+      this.repo = repo;
+      this.shell = shell;
+    }
+
+    mount() {
+      this.dashboard = $("#adminDashboard");
+      if (!this.dashboard) return;
+
+      this.logoutBtn = $("#adminLogoutBtn");
+      this.refreshBtn = $("#adminRefreshBtn");
+      this.clearBtn = $("#adminClearBtn");
+
+      this.welcome = $("#adminWelcome");
+      this.tbody = $("#adminBookingsBody");
+      this.empty = $("#adminEmptyState");
+
+      this.logoutBtn?.addEventListener("click", () => this.handleLogout());
+      this.refreshBtn?.addEventListener("click", () => this.renderBookings());
+      this.clearBtn?.addEventListener("click", () => this.handleClearAll());
+
+      window.addEventListener("huellas:admin:login", () => this.render());
+
+      this.render();
+    }
+
+    handleLogout() {
+      this.auth.logout();
+      this.shell.setAdminMode(false);
+      this.render();
+    }
+
+    handleClearAll() {
+      this.repo.clearAll();
+      this.renderBookings();
+    }
+
+    render() {
+      const logged = this.auth.isLoggedIn();
+      this.dashboard.classList.toggle("hidden", !logged);
+      if (!logged) return;
+
+      const user = this.auth.currentUser();
+      if (this.welcome)
+        this.welcome.textContent = `Logged in as ${user?.email || ""}`;
+
+      this.renderBookings();
+    }
+
+    renderBookings() {
+      if (!this.tbody || !this.empty) return;
+
+      const list = this.repo.list();
+      this.tbody.innerHTML = "";
+
+      if (!list.length) {
+        this.empty.textContent = "No bookings yet.";
+        return;
+      }
+      this.empty.textContent = "";
+
+      list.forEach((b) => {
+        const tr = document.createElement("tr");
+
+        const cells = [
+          b.date || "",
+          b.timeSlot || "",
+          b.serviceName || "",
+          b.professional || "",
+          b.ownerName || "",
+          b.petName || "",
+          b.petType || "",
+          b.phone || "",
+          b.email || "",
+        ];
+
+        cells.forEach((txt) => {
+          const td = document.createElement("td");
+          td.textContent = txt;
+          tr.appendChild(td);
+        });
+
+        const tdAction = document.createElement("td");
+        tdAction.innerHTML = `
+          <button class="btn btn-outline btn-sm" type="button" data-del="${escapeHtml(
+            b.id
+          )}">Delete</button>
+        `;
+        tr.appendChild(tdAction);
+
+        this.tbody.appendChild(tr);
+      });
+
+      $$("[data-del]", this.tbody).forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const id = btn.getAttribute("data-del");
+          if (!id) return;
+          this.repo.removeById(id);
+          this.renderBookings();
+        });
+      });
+    }
+  }
+
+  // -----------------------------
+  // Init (manteniendo tu estilo)
+  // -----------------------------
+  function init() {
+    injectIcons();
+
+    // UI basics
+    new HeaderUI().mount();
+    new FooterUI().mount();
+    new HeroUI().mount();
+
+    // Services
+    const storage = new StorageService("huellas");
+    const repo = new BookingRepository(storage);
+    const auth = new AuthService(storage);
+
+    // App shell (public <-> admin)
+    const shell = new AppShell(auth);
+    shell.syncFromSession();
+
+    // Booking wizard (public)
+    new BookingWizardUI(repo).mount();
+
+    // Admin dashboard + modal login
+    new AdminUI(auth, repo, shell).mount();
+    new AdminLoginModalUI(auth, shell).mount();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();
