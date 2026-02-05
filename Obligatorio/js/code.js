@@ -214,7 +214,7 @@
     constructor(storage) {
       this.storage = storage;
       this.SESSION = "adminSession";
-      this.demo = { email: "admin@huellas.com", password: "admin123" };
+      this.demo = { email: "admin", password: "veterinaria" };
     }
     isLoggedIn() {
       return !!this.storage.read(this.SESSION, null);
@@ -775,9 +775,9 @@
       this.openBtnMobile = $("#openAdminLoginBtnMobile");
       this.closeBtn = $("#closeAdminLoginBtn");
 
-      this.email = $("#adminEmail");
+      this.email = $("#adminUser");
       this.password = $("#adminPassword");
-      this.emailError = $("#adminEmailError");
+      this.emailError = $("#adminUserError");
       this.passwordError = $("#adminPasswordError");
       this.loginBtn = $("#adminLoginBtn");
 
