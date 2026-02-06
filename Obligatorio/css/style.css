@@ -273,6 +273,11 @@ code {
 .hero-paw { font-size: 6rem; }
 .hero-illustration-text { margin: 1rem 0 0; font-size: 1.25rem; font-weight: 600; }
 
+.hero-paw img{
+  width: 100%;
+  border-radius:25px;
+}
+
 /* Sections */
 .section { padding: 4rem 0; }
 @media (min-width: 768px) { .section { padding: 6rem 0; } }
@@ -360,14 +365,18 @@ code {
 
 .prof-card { text-align: center; border-radius: 1rem; }
 .avatar {
-  width: 80px; height: 80px;
-  border-radius: 999px;
-  background: hsl(var(--secondary));
+  width: 100%; height: 100%;
   display: grid;
   place-items: center;
   margin: 0 auto 1rem auto;
   font-size: 2rem;
 }
+
+.avatar img{
+  width: 300px;
+  border-radius: 15px;
+}
+
 .prof-name { margin: 0 0 .25rem 0; font-size: 1.125rem; font-weight: 800; }
 .prof-role { margin: 0; font-size: .875rem; font-weight: 600; color: hsl(var(--primary)); }
 

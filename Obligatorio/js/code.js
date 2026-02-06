@@ -1,7 +1,5 @@
 (function () {
-  // -----------------------------
-  // Helpers (igual que tu base)
-  // -----------------------------
+
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
@@ -26,9 +24,6 @@
       .replaceAll("'", "&#039;");
   }
 
-  // -----------------------------
-  // Simple SVG icon set (igual que tu base)
-  // -----------------------------
   const ICONS = {
     menu: `
       <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -110,19 +105,18 @@
     });
   }
 
-  // -----------------------------
-  // Datos (mismos que React)
-  // -----------------------------
   const services = [
-    { id: "vet-care", name: "Veterinary Care" },
-    { id: "grooming", name: "Pet Grooming" },
-    { id: "bath", name: "Bath & Aesthetics" },
+    { id: "vet-care", name: "Veterinaria clinica" },
+    {id:"vet-care2",name:"Cirugia veterinaria"},
+    { id: "grooming", name: "Corte de uñas e higiene básica" },
+    { id: "bath", name: "Corte de pelo y estilismo"}
   ];
 
   const professionalsByService = {
-    "vet-care": ["Dr. María García", "Dr. Carlos López", "Dr. Ana Rodríguez"],
-    grooming: ["Sofia Martínez", "Lucas Fernández"],
-    bath: ["Sofia Martínez", "Lucas Fernández"],
+    "vet-care": ["Dra. María García", "Dr. Carlos López", "Dra. Ana Rodríguez"],
+    "vet-care2":["Dra. María García", "Dr. Carlos López", "Dra. Ana Rodríguez"],
+    grooming: ["Sofia Martínez", "Marcos Murillo"],
+    bath: ["María Carrasco", "Gonzalo Morales"]
   };
 
   const timeSlots = [
@@ -325,7 +319,7 @@
       this.serviceList = $("#serviceList");
       this.professionalField = $("#professionalField");
       this.professionalList = $("#professionalList");
-
+    
       this.dateInput = $("#dateInput");
       this.timeGrid = $("#timeGrid");
 
@@ -429,54 +423,54 @@
 
       if (step === 1) {
         if (!this.formData.serviceType) {
-          this.setError("serviceType", "Please select a service");
+          this.setError("serviceType", "Seleccione un servicio");
           ok = false;
         }
         if (!this.formData.professional) {
-          this.setError("professional", "Please select a professional");
+          this.setError("professional", "Seleccione un profesional");
           ok = false;
         }
       }
       if (step === 2) {
         if (!this.formData.date) {
-          this.setError("date", "Please select a date");
+          this.setError("date", "Seleccione una fecha");
           ok = false;
         }
         if (!this.formData.timeSlot) {
-          this.setError("timeSlot", "Please select a time");
+          this.setError("timeSlot", "Seleccione un horario");
           ok = false;
         }
       }
       if (step === 3) {
         if (!this.formData.ownerName.trim()) {
-          this.setError("ownerName", "Owner name is required");
+          this.setError("ownerName", "Su nombre es requerido");
           ok = false;
         }
         if (!this.formData.petName.trim()) {
-          this.setError("petName", "Pet name is required");
+          this.setError("petName", "El nombre de la mascota es requerido");
           ok = false;
         }
         if (!this.formData.petType) {
-          this.setError("petType", "Please select pet type");
+          this.setError("petType", "Seleccione un tipo");
           ok = false;
         }
 
         if (!this.formData.phone.trim()) {
-          this.setError("phone", "Phone number is required");
+          this.setError("phone", "El número de telefono es requerido");
           ok = false;
         } else {
           const digits = this.formData.phone.replace(/\D/g, "");
           if (!/^\d{7,}$/.test(digits)) {
-            this.setError("phone", "Please enter a valid phone number");
+            this.setError("phone", "Ingrese un telefono valido");
             ok = false;
           }
         }
 
         if (!this.formData.email.trim()) {
-          this.setError("email", "Email is required");
+          this.setError("email", "El email es requerido");
           ok = false;
         } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.formData.email)) {
-          this.setError("email", "Please enter a valid email");
+          this.setError("email", "Ingrese un email valido");
           ok = false;
         }
       }
@@ -491,7 +485,7 @@
       });
 
       if (this.stepIndicator)
-        this.stepIndicator.textContent = `Step ${this.currentStep} of 3`;
+        this.stepIndicator.textContent = `Paso ${this.currentStep} de 3`;
       if (this.prevBtn) this.prevBtn.disabled = this.currentStep === 1;
 
       const isLast = this.currentStep === 3;
@@ -733,8 +727,8 @@
       const owner = this.formData.ownerName.trim();
       const pet = this.formData.petName.trim();
 
-      this.successText.textContent = `Thank you, ${owner}! Your appointment for ${pet} has been confirmed.`;
-      this.successSub.textContent = `We'll send a confirmation email to ${this.formData.email}`;
+      this.successText.textContent = `Gracias, ${owner}! Tu cita ${pet} ha sido confirmada.`;
+      this.successSub.textContent = `Enviaremos un correo electrónico de confirmación a ${this.formData.email}`;
 
       this.successWrap.classList.remove("hidden");
       this.panel.classList.add("hidden");
