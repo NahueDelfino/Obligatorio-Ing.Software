@@ -95,6 +95,11 @@ body {
   color: hsl(var(--foreground));
 }
 
+body.is-admin header nav a,
+body.is-admin #mobileNav a {
+  display: none !important;
+}
+
 :where(p, span, li, h1, h2, h3, h4, h5, h6, a, button, label, td, th) {
   overflow-wrap: anywhere;
   word-break: break-word;

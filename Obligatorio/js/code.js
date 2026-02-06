@@ -208,7 +208,7 @@
     constructor(storage) {
       this.storage = storage;
       this.SESSION = "adminSession";
-      this.demo = { email: "admin@huellas.com", password: "admin123" };
+      this.demo = { email: "admin", password: "veterinaria" };
     }
     isLoggedIn() {
       return !!this.storage.read(this.SESSION, null);
@@ -748,11 +748,14 @@
     }
 
     setAdminMode(isAdmin) {
-      if (this.publicApp) this.publicApp.classList.toggle("hidden", isAdmin);
-      if (this.footer) this.footer.classList.toggle("hidden", isAdmin);
-      if (this.adminSection) this.adminSection.classList.toggle("hidden", !isAdmin);
-      if (isAdmin) window.scrollTo({ top: 0, behavior: "smooth" });
-    }
+  document.body.classList.toggle("is-admin", isAdmin);
+
+  if (this.publicApp) this.publicApp.classList.toggle("hidden", isAdmin);
+  if (this.footer) this.footer.classList.toggle("hidden", isAdmin);
+  if (this.adminSection) this.adminSection.classList.toggle("hidden", !isAdmin);
+
+  if (isAdmin) window.scrollTo({ top: 0, behavior: "smooth" });
+}
   }
 
   class AdminLoginModalUI {
@@ -769,9 +772,9 @@
       this.openBtnMobile = $("#openAdminLoginBtnMobile");
       this.closeBtn = $("#closeAdminLoginBtn");
 
-      this.email = $("#adminEmail");
+      this.email = $("#adminUser");
       this.password = $("#adminPassword");
-      this.emailError = $("#adminEmailError");
+      this.emailError = $("#adminUserError");
       this.passwordError = $("#adminPasswordError");
       this.loginBtn = $("#adminLoginBtn");
 
@@ -867,7 +870,6 @@
 
       this.logoutBtn = $("#adminLogoutBtn");
       this.refreshBtn = $("#adminRefreshBtn");
-      this.clearBtn = $("#adminClearBtn");
 
       this.welcome = $("#adminWelcome");
       this.tbody = $("#adminBookingsBody");
@@ -875,7 +877,6 @@
 
       this.logoutBtn?.addEventListener("click", () => this.handleLogout());
       this.refreshBtn?.addEventListener("click", () => this.renderBookings());
-      this.clearBtn?.addEventListener("click", () => this.handleClearAll());
 
       window.addEventListener("huellas:admin:login", () => this.render());
 
@@ -886,11 +887,6 @@
       this.auth.logout();
       this.shell.setAdminMode(false);
       this.render();
-    }
-
-    handleClearAll() {
-      this.repo.clearAll();
-      this.renderBookings();
     }
 
     render() {
@@ -936,16 +932,7 @@
           const td = document.createElement("td");
           td.textContent = txt;
           tr.appendChild(td);
-        });
-
-        const tdAction = document.createElement("td");
-        tdAction.innerHTML = `
-          <button class="btn btn-outline btn-sm" type="button" data-del="${escapeHtml(
-            b.id
-          )}">Delete</button>
-        `;
-        tr.appendChild(tdAction);
-
+        });      
         this.tbody.appendChild(tr);
       });
 
