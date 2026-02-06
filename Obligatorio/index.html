@@ -37,7 +37,6 @@
             </button>
           </nav>
 
-
           <button class="icon-btn nav-toggle" id="mobileMenuBtn" aria-label="Toggle menu" aria-expanded="false"
             aria-controls="mobileNav" type="button">
             <span class="icon" data-icon="menu" aria-hidden="true"></span>
@@ -418,8 +417,7 @@
             </div>
 
             <div class="admin-actions">
-              <button class="btn btn-outline" type="button" id="adminRefreshBtn">Refrescar</button>
-              <button class="btn btn-outline" type="button" id="adminClearBtn">Borrar</button>
+              <button class="btn btn-outline" type="button" id="adminRefreshBtn">Refrescar</button>              
             </div>
 
             <div class="admin-table-wrap">
@@ -435,6 +433,7 @@
                     <th>Type</th>
                     <th>Phone</th>
                     <th>Email</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody id="adminBookingsBody"></tbody>
@@ -516,9 +515,9 @@
 
     <div class="modal-body">
       <div class="field">
-        <label class="label-sm" for="adminUser">Usuario</label>
-        <input class="input" type="text" id="adminUser" placeholder="admin"/>
-        <p class="error hidden" id="adminUserError"></p>
+        <label class="label-sm" for="adminUsuer">Usuario</label>
+        <input class="input" type="email" id="adminUser" placeholder="admin" />
+        <p class="error hidden" id="adminEmailError"></p>
       </div>
 
       <div class="field">
