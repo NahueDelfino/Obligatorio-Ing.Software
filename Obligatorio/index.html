@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./css/style.css" />
+  <link rel="icon" href="img/logo.ico">
 </head>
 
 <body>
@@ -27,12 +28,12 @@
           </div>
 
           <nav class="nav-desktop" aria-label="Primary navigation">
-            <a class="nav-link" href="#services">Services</a>
-            <a class="nav-link" href="#professionals">Our Team</a>
-            <a class="nav-link" href="#booking">Book Appointment</a>
-            <a class="nav-link" href="#contact">Contact</a>
+            <a class="nav-link" href="#services">Servicios</a>
+            <a class="nav-link" href="#professionals">Profesionales</a>
+            <a class="nav-link" href="#booking">Reservas</a>
+            <a class="nav-link" href="#contact">Contacto</a>
             <button class="nav-link nav-btn" type="button" id="openAdminLoginBtn">
-              Admin
+              Login
             </button>
           </nav>
 
@@ -44,12 +45,12 @@
         </div>
 
         <nav class="nav-mobile hidden" id="mobileNav" aria-label="Mobile navigation">
-          <a class="nav-mobile-link" href="#services">Services</a>
-          <a class="nav-mobile-link" href="#professionals">Our Team</a>
-          <a class="nav-mobile-link" href="#booking">Book Appointment</a>
-          <a class="nav-mobile-link" href="#contact">Contact</a>
+          <a class="nav-mobile-link" href="#services">Servicios</a>
+          <a class="nav-mobile-link" href="#professionals">Profesionales</a>
+          <a class="nav-mobile-link" href="#booking">Reservas</a>
+          <a class="nav-mobile-link" href="#contact">Contacto</a>
           <button class="nav-mobile-link nav-btn" type="button" id="openAdminLoginBtnMobile">
-            Admin
+            Login
           </button>
         </nav>
       </div>
@@ -63,15 +64,14 @@
             <div class="hero-grid">
               <div class="hero-content">
                 <div>
-                  <h1 class="hero-title">Care for your pet, made simple</h1>
+                  <h1 class="hero-title">Cuidamos la salud de tu mascota</h1>
                   <p class="hero-subtitle">
-                    Professional veterinary care, grooming, and wellness services for your beloved pet.
-                    We're here to keep them healthy and happy.
+                    Amor, cuidado y salud para tu compañero de vida. Tu mascota merece lo mejor, y nosotros estamos aquí para dárselo
                   </p>
                 </div>
 
                 <button class="btn btn-hero" type="button" id="heroBookingBtn">
-                  Book an Appointment
+                  Reserva una cita
                 </button>
               </div>
 
@@ -79,8 +79,10 @@
                 <div class="hero-illustration-wrap">
                   <div class="hero-circle"></div>
                   <div class="hero-illustration-inner">
-                    <div class="hero-paw">🐾</div>
-                    <p class="hero-illustration-text">Veterinary Care You Can Trust</p>
+                    <div class="hero-paw">
+                      <img src="img/principal.jpg" alt="">
+                    </div>
+                    <p class="hero-illustration-text">Atención veterinaria de confianza</p>
                   </div>
                 </div>
               </div>
@@ -92,20 +94,30 @@
         <section id="services" class="section section-white">
           <div class="container">
             <div class="section-head">
-              <h2 class="section-title">Our Services</h2>
+              <h2 class="section-title">Nuestros Servicios</h2>
               <p class="section-desc">
-                Everything your pet needs for a healthy, happy life
+                Todo lo que tu mascota necesita para una vida sana y feliz             
               </p>
             </div>
 
-            <div class="grid-3">
+            <div class="grid-2">
               <article class="card service-card">
                 <div class="icon-box">
                   <span class="icon icon-primary" data-icon="heart" aria-hidden="true"></span>
                 </div>
-                <h3 class="card-title">Veterinary Care</h3>
+                <h3 class="card-title">Veterinaria clinica</h3>
                 <p class="card-text">
-                  Comprehensive health checkups, vaccinations, and medical treatments for your pet's wellbeing.
+                  Atendemos la salud de tus mascotas con consultas, controles, vacunación, desparasitación y urgencias. Nuestro equipo profesional asegura diagnóstico y cuidado confiable en cada visita.
+                </p>
+              </article>
+
+                <article class="card service-card">
+                <div class="icon-box">
+                  <span class="icon icon-primary" data-icon="heart" aria-hidden="true"></span>
+                </div>
+                <h3 class="card-title">Cirugia veterinaria</h3>
+                <p class="card-text">
+                  Realizamos cirugías seguras y profesionales, desde procedimientos de rutina hasta intervenciones complejas, priorizando siempre la salud y recuperación de tu mascota.
                 </p>
               </article>
 
@@ -113,9 +125,9 @@
                 <div class="icon-box">
                   <span class="icon icon-primary" data-icon="scissors" aria-hidden="true"></span>
                 </div>
-                <h3 class="card-title">Pet Grooming</h3>
+                <h3 class="card-title">Corte de uñas e higiene básica</h3>
                 <p class="card-text">
-                  Professional grooming services including bathing, brushing, and nail trimming.
+                Ofrecemos servicios de higiene esencial para tu mascota, incluyendo corte de uñas, limpieza de oídos y cuidados básicos. Garantizamos comodidad y bienestar en cada sesión, con atención profesional y segura.
                 </p>
               </article>
 
@@ -123,9 +135,9 @@
                 <div class="icon-box">
                   <span class="icon icon-primary" data-icon="droplet" aria-hidden="true"></span>
                 </div>
-                <h3 class="card-title">Bath &amp; Aesthetics</h3>
+                <h3 class="card-title">Corte de pelo y estilismo</h3>
                 <p class="card-text">
-                  Spa treatments and aesthetic services to keep your pet looking beautiful and feeling great.
+                  Ofrecemos cortes de pelo y estilismo profesional para mascotas, adaptados a cada raza y necesidad. Garantizamos comodidad, higiene y una apariencia cuidada, siempre con atención especializada.
                 </p>
               </article>
             </div>
@@ -136,44 +148,68 @@
         <section id="professionals" class="section section-soft">
           <div class="container">
             <div class="section-head">
-              <h2 class="section-title">Meet Our Team</h2>
-              <p class="section-desc">Experienced professionals dedicated to your pet's care</p>
+              <h2 class="section-title">Conozca nuestro equipo</h2>
+              <p class="section-desc">Profesionales experimentados dedicados al cuidado de tu mascota</p>
             </div>
 
             <div class="stack-lg">
               <div>
-                <h3 class="subsection-title">Veterinarians</h3>
+                <h3 class="subsection-title">Veterinarios</h3>
                 <div class="grid-3">
                   <article class="card prof-card">
-                    <div class="avatar">🐕</div>
-                    <h4 class="prof-name">Dr. María García</h4>
-                    <p class="prof-role">Senior Veterinarian</p>
+                    <div class="avatar">
+                      <img src="img/vet1.jpg" alt="Veterinario1">
+                      <h4 class="prof-name">Dra. María García</h4>
+                      <p class="prof-role">Veterinaria</p>
+                    </div>
                   </article>
                   <article class="card prof-card">
-                    <div class="avatar">🐈</div>
-                    <h4 class="prof-name">Dr. Carlos López</h4>
-                    <p class="prof-role">General Practice</p>
+                    <div class="avatar">
+                      <img src="img/vet2.jpg" alt="Veterinario2">
+                      <h4 class="prof-name">Dr. Carlos López</h4>
+                      <p class="prof-role">Veterinario</p>
+                    </div>
                   </article>
                   <article class="card prof-card">
-                    <div class="avatar">🐾</div>
-                    <h4 class="prof-name">Dr. Ana Rodríguez</h4>
-                    <p class="prof-role">Pediatric Specialist</p>
+                    <div class="avatar">
+                      <img src="img/vet3.jpg" alt="Veterinario3">
+                      <h4 class="prof-name">Dra. Ana Rodríguez</h4>
+                      <p class="prof-role">Veterinaria</p>
+                    </div>                   
                   </article>
                 </div>
               </div>
 
               <div>
-                <h3 class="subsection-title">Grooming &amp; Aesthetics</h3>
-                <div class="grid-2 grid-2-narrow">
+                <h3 class="subsection-title">Cuidado y estética</h3>
+                <div class="grid-2" id="estilistas">
                   <article class="card prof-card">
-                    <div class="avatar">✨</div>
-                    <h4 class="prof-name">Sofia Martínez</h4>
-                    <p class="prof-role">Master Groomer</p>
+                    <div class="avatar">
+                      <img src="img/Est1.png" alt="Estilista1">
+                      <h4 class="prof-name">Sofia Martínez</h4>
+                      <p class="prof-role">Estilista</p>  
+                    </div>                                    
                   </article>
                   <article class="card prof-card">
-                    <div class="avatar">💅</div>
-                    <h4 class="prof-name">Lucas Fernández</h4>
-                    <p class="prof-role">Aesthetics Specialist</p>
+                    <div class="avatar">
+                      <img src="img/Est2.png" alt="Estilista1">
+                      <h4 class="prof-name">Marcos Murillo</h4>
+                      <p class="prof-role">Estilista</p>
+                    </div>                   
+                  </article>
+                  <article class="card prof-card">
+                    <div class="avatar">
+                      <img src="img/Est3.png" alt="Estilista1">
+                      <h4 class="prof-name">Gonzalo Morales</h4>
+                      <p class="prof-role">Estilista</p>
+                    </div>                   
+                  </article>
+                 <article class="card prof-card">
+                    <div class="avatar">
+                      <img src="img/Est4.png" alt="Estilista1">
+                      <h4 class="prof-name">María Carrasco</h4>
+                      <p class="prof-role">Estilista</p>
+                    </div>                   
                   </article>
                 </div>
               </div>
@@ -185,8 +221,8 @@
         <section id="booking" class="section section-soft booking scroll-mt-20">
           <div class="container container-narrow">
             <div class="section-head">
-              <h2 class="section-title">Book Your Appointment</h2>
-              <p class="section-desc" id="stepIndicator">Step 1 of 3</p>
+              <h2 class="section-title">Reserva una cita</h2>
+              <p class="section-desc" id="stepIndicator">Paso 1 de 3</p>
             </div>
 
             <!-- success panel (hidden by default) -->
@@ -194,7 +230,7 @@
               <div class="success-card">
                 <span class="icon icon-big" data-icon="checkCircle" aria-hidden="true"></span>
                 <div>
-                  <h3 class="success-title">Booking Confirmed!</h3>
+                  <h3 class="success-title">Reserva confirmada!</h3>
                   <p class="success-text" id="successText"></p>
                   <p class="success-sub" id="successSub"></p>
                 </div>
@@ -206,13 +242,13 @@
               <!-- STEP 1 -->
               <div class="step" data-step="1">
                 <div class="field">
-                  <label class="label-lg">Select a Service</label>
+                  <label class="label-lg">Seleccione un servicio</label>
                   <div class="stack-sm" id="serviceList"></div>
                   <p class="error hidden" data-error-for="serviceType"></p>
                 </div>
 
                 <div class="field hidden" id="professionalField">
-                  <label class="label-lg">Select a Professional</label>
+                  <label class="label-lg">Seleccione un profesional</label>
                   <div class="stack-sm" id="professionalList"></div>
                   <p class="error hidden" data-error-for="professional"></p>
                 </div>
@@ -221,13 +257,13 @@
               <!-- STEP 2 -->
               <div class="step hidden" data-step="2">
                 <div class="field">
-                  <label class="label-lg">Select a Date</label>
+                  <label class="label-lg">Seleccione una fecha</label>
                   <input class="input" type="date" id="dateInput" />
                   <p class="error hidden" data-error-for="date"></p>
                 </div>
 
                 <div class="field">
-                  <label class="label-lg">Select a Time Slot</label>
+                  <label class="label-lg">Seleccione un horario</label>
                   <div class="times-grid" id="timeGrid"></div>
                   <p class="error hidden" data-error-for="timeSlot"></p>
                 </div>
@@ -236,30 +272,32 @@
               <!-- STEP 3 -->
               <div class="step hidden" data-step="3">
                 <div class="field">
-                  <label class="label-sm" for="ownerName">Owner Name</label>
-                  <input class="input" type="text" id="ownerName" placeholder="Your full name" />
+                  <label class="label-sm" for="ownerName">Nombre</label>
+                  <input class="input" type="text" id="ownerName" placeholder="Su nombre completo" />
                   <p class="error hidden" data-error-for="ownerName"></p>
                 </div>
 
                 <div class="field">
-                  <label class="label-sm" for="petName">Pet Name</label>
-                  <input class="input" type="text" id="petName" placeholder="Your pet's name" />
+                  <label class="label-sm" for="petName">Nombre de la mascota</label>
+                  <input class="input" type="text" id="petName" placeholder="El nombre de su mascota" />
                   <p class="error hidden" data-error-for="petName"></p>
                 </div>
 
                 <div class="field">
-                  <label class="label-sm" for="petType">Pet Type</label>
-                  <select class="input" id="petType">
-                    <option value="">Select pet type</option>
-                    <option value="dog">Dog</option>
-                    <option value="cat">Cat</option>
+                  <label class="label-sm" for="petType">Tipo de mascota</label>
+                  <select class="input" id="petType">                  
+                    <option value="">Seleccione tipo</option>
+                    <option value="perro">Perro</option>
+                    <option value="gato">Gato</option>
+                    <option value="sapo">Sapo</option>
+                    <option value="tortuga">Tortuga</option>                                 
                   </select>
                   <p class="error hidden" data-error-for="petType"></p>
                 </div>
 
                 <div class="field">
-                  <label class="label-sm" for="phone">Phone Number</label>
-                  <input class="input" type="tel" id="phone" placeholder="+1 (555) 123-4567" />
+                  <label class="label-sm" for="phone">Telefono</label>
+                  <input class="input" type="tel" id="phone" placeholder="+598 93111222" />
                   <p class="error hidden" data-error-for="phone"></p>
                 </div>
 
@@ -274,25 +312,25 @@
               <div class="booking-nav">
                 <button class="btn btn-outline" type="button" id="prevBtn" disabled>
                   <span class="icon" data-icon="chevronLeft" aria-hidden="true"></span>
-                  Previous
+                  Anterior
                 </button>
 
                 <button class="btn btn-primary btn-grow" type="button" id="nextBtn">
-                  Next
+                  Siguiente
                   <span class="icon" data-icon="chevronRight" aria-hidden="true"></span>
                 </button>
 
                 <button class="btn btn-primary btn-grow hidden" type="button" id="confirmBtn">
-                  Confirm Booking
+                  Confirmar reserva
                 </button>
               </div>
 
               <!-- SUMMARY -->
               <div class="summary" id="summaryBox">
-                <p class="hidden" data-sum="service"></p>
-                <p class="hidden" data-sum="professional"></p>
-                <p class="hidden" data-sum="date"></p>
-                <p class="hidden" data-sum="timeSlot"></p>
+                <p class="hidden" data-sum="Servicio"></p>
+                <p class="hidden" data-sum="Profesional"></p>
+                <p class="hidden" data-sum="Fecha"></p>
+                <p class="hidden" data-sum="Horario"></p>
               </div>
             </div>
           </div>
@@ -302,9 +340,9 @@
         <section id="contact" class="section section-white">
           <div class="container">
             <div class="section-head">
-              <h2 class="section-title">Get in Touch</h2>
+              <h2 class="section-title">Contáctanos</h2>
               <p class="section-desc max-w-2">
-                We're here to answer any questions about your pet's care
+                Estamos aquí para responder cualquier pregunta sobre el cuidado de su mascota.
               </p>
             </div>
 
@@ -313,11 +351,10 @@
                 <div class="info-row">
                   <span class="icon icon-primary" data-icon="mapPin" aria-hidden="true"></span>
                   <div>
-                    <h3 class="info-title">Our Location</h3>
+                    <h3 class="info-title">Nuestra Ubicación</h3>
                     <p class="muted">
-                      123 Veterinary Lane<br />
-                      Greenfield, ST 12345<br />
-                      United States
+                      Cuareim 1451, esquina Mercedes<br />                      
+                      Uruguay
                     </p>
                   </div>
                 </div>
@@ -325,20 +362,20 @@
                 <div class="info-row">
                   <span class="icon icon-primary" data-icon="phone" aria-hidden="true"></span>
                   <div>
-                    <h3 class="info-title">Phone</h3>
+                    <h3 class="info-title">Telefono</h3>
                     <p class="muted">
-                      <a class="link" href="tel:+1555123456">+1 (555) 123-456</a>
+                      <a class="link" href="tel:+1555123456">2902 1505</a>
                     </p>
                     <p class="muted small">
-                      Mon-Fri: 9:00 AM - 6:00 PM<br />
-                      Sat: 10:00 AM - 4:00 PM<br />
-                      Sun: Closed
+                      Lunes a viernes: 9:00 AM - 6:00 PM<br />
+                      Sabados: 10:00 AM - 4:00 PM<br />
+                      Domingos: Cerrados
                     </p>
                   </div>
                 </div>
 
                 <div>
-                  <h3 class="info-title">Follow Us</h3>
+                  <h3 class="info-title">Siguenos en nuestras redes</h3>
                   <div class="social-row">
                     <a class="social-btn" href="https://instagram.com" aria-label="Instagram">
                       <span class="icon" data-icon="instagram" aria-hidden="true"></span>
@@ -354,9 +391,9 @@
                 <div class="map-inner">
                   <span class="icon icon-xl icon-primary" data-icon="mapPin" aria-hidden="true"></span>
                   <div>
-                    <h3 class="info-title">Visit Us</h3>
+                    <h3 class="info-title">Visitanos</h3>
                     <p class="muted mt-2">
-                      123 Veterinary Lane, Greenfield, ST 12345
+                      Cuareim 1451, Montevideo
                     </p>
                   </div>
                 </div>
@@ -377,11 +414,12 @@
           <div class="panel hidden" id="adminDashboard">
             <div class="admin-top">
               <p class="admin-welcome" id="adminWelcome"></p>
-              <button class="btn btn-outline" type="button" id="adminLogoutBtn">Log out</button>
+              <button class="btn btn-outline" type="button" id="adminLogoutBtn">Cerrar Sesión</button>
             </div>
 
             <div class="admin-actions">
-              <button class="btn btn-outline" type="button" id="adminRefreshBtn">Refresh</button>              
+              <button class="btn btn-outline" type="button" id="adminRefreshBtn">Refrescar</button>
+              <button class="btn btn-outline" type="button" id="adminClearBtn">Borrar</button>
             </div>
 
             <div class="admin-table-wrap">
@@ -418,31 +456,31 @@
               <span class="footer-name">Huellas</span>
             </div>
             <p class="footer-muted">
-              Professional veterinary care for your beloved pets.
+              Atención veterinaria profesional para tus queridas mascotas.
             </p>
           </div>
 
           <div>
-            <h4 class="footer-title">Quick Links</h4>
+            <h4 class="footer-title">Enlaces rápidos</h4>
             <ul class="footer-links">
-              <li><button class="link-btn" type="button" data-scroll="services">Services</button></li>
-              <li><button class="link-btn" type="button" data-scroll="professionals">Our Team</button></li>
-              <li><button class="link-btn" type="button" data-scroll="booking">Book Appointment</button></li>
-              <li><button class="link-btn" type="button" data-scroll="contact">Contact</button></li>
+              <li><button class="link-btn" type="button" data-scroll="services">Servicios</button></li>
+              <li><button class="link-btn" type="button" data-scroll="professionals">Profesionales</button></li>
+              <li><button class="link-btn" type="button" data-scroll="booking">Reservas</button></li>
+              <li><button class="link-btn" type="button" data-scroll="contact">Contacto</button></li>
             </ul>
           </div>
 
           <div>
-            <h4 class="footer-title">Hours</h4>
-            <ul class="footer-hours">
-              <li>Mon-Fri: 9:00 AM - 6:00 PM</li>
-              <li>Saturday: 10:00 AM - 4:00 PM</li>
-              <li>Sunday: Closed</li>
+            <h4 class="footer-title">Horas</h4>
+            <ul class="footer-hours">          
+              <li>Lunes a viernes: 9:00 AM - 6:00 PM</li>
+              <li>Sabados: 10:00 AM - 4:00 PM</li>
+              <li>Domingos: Cerrados</li>
             </ul>
           </div>
 
           <div>
-            <h4 class="footer-title">Follow Us</h4>
+            <h4 class="footer-title">Siguenos</h4>
             <div class="footer-social">
               <a class="footer-social-btn" href="https://instagram.com" aria-label="Instagram">
                 <span class="icon" data-icon="instagram" aria-hidden="true"></span>
@@ -457,8 +495,8 @@
         <div class="footer-divider">
           <p class="footer-copy" id="copyrightText"></p>
           <div class="footer-legal">
-            <a class="footer-legal-link" href="#">Privacy Policy</a>
-            <a class="footer-legal-link" href="#">Terms of Service</a>
+            <a class="footer-legal-link" href="#">Política de privacidad</a>
+            <a class="footer-legal-link" href="#">Condiciones de servicio</a>
           </div>
         </div>
       </div>
@@ -484,7 +522,7 @@
       </div>
 
       <div class="field">
-        <label class="label-sm" for="adminPassword">Password</label>
+        <label class="label-sm" for="adminPassword">Contraseña</label>
         <input class="input" type="password" id="adminPassword" placeholder="••••••••" />
         <p class="error hidden" id="adminPasswordError"></p>
       </div>
