@@ -116,7 +116,6 @@ code {
 .mt-2 { margin-top: .5rem; }
 .max-w-2 { max-width: 42rem; }
 .small { font-size: .875rem; }
-.muted { color: hsl(var(--muted-foreground)); }
 
 .scroll-mt-20 { scroll-margin-top: 5rem; }
 
@@ -585,13 +584,29 @@ code {
 .social-btn:hover { background: hsl(var(--primary)); color: white; }
 
 .map-placeholder {
-  background: hsl(var(--secondary));
+  position: relative;
+  background-image: url(../img/ubicacion.png);
+  z-index: 1;
   border-radius: 1rem;
   overflow: hidden;
   min-height: 24rem;
   display: grid;
   place-items: center;
+  color: white
 }
+
+.map-placeholder::before{
+  content: "";
+  position: absolute;
+  inset: 0; background: rgba(0, 0, 0, 0.5);
+  z-index: 0;
+}
+
+.map-placeholder > .map-inner{
+  position: relative;
+   z-index: 1;
+}
+
 @media (min-width: 768px) { .map-placeholder { min-height: 100%; } }
 .map-inner { text-align: center; padding: 2rem; display: grid; gap: 1rem; }
 
@@ -601,7 +616,9 @@ code {
   color: white;
 }
 .footer-pad { padding: 3rem 0; }
-@media (min-width: 768px) { .footer-pad { padding: 4rem 0; } }
+
+
+@media (min-width: 768px) { .footer-pad { padding: 4rem 0;} }
 
 .footer-grid {
   display: grid;
@@ -609,7 +626,34 @@ code {
   margin-bottom: 2rem;
 }
 @media (min-width: 768px) {
-  .footer-grid { grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+  .footer-grid { grid-template-columns: repeat(4, 1fr); gap: 2rem;}
+}
+
+@media (max-width: 767px) {
+  .footer-grid {
+    text-align: center;
+    justify-items: center;  
+  }
+
+  .footer-grid > div{
+    margin-bottom: 2rem;
+  }
+
+  .footer-brand-row {
+    justify-content: center;
+  }
+
+  .link-btn {
+    text-align: center;
+  }
+
+  .footer-social {
+    justify-content: center;
+  }
+
+  .footer-legal {
+    justify-content: center;
+  }
 }
 
 .footer-brand-row { display: flex; gap: .5rem; align-items: center; margin-bottom: 1rem; }
