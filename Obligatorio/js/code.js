@@ -107,14 +107,14 @@
 
   const services = [
     { id: "vet-care", name: "Veterinaria clinica" },
-    {id:"vet-care2",name:"Cirugia veterinaria"},
+    { id: "vet-care2", name: "Cirugia veterinaria" },
     { id: "grooming", name: "Corte de uñas e higiene básica" },
-    { id: "bath", name: "Corte de pelo y estilismo"}
+    { id: "bath", name: "Corte de pelo y estilismo" }
   ];
 
   const professionalsByService = {
     "vet-care": ["Dra. María García", "Dr. Carlos López", "Dra. Ana Rodríguez"],
-    "vet-care2":["Dra. María García", "Dr. Carlos López", "Dra. Ana Rodríguez"],
+    "vet-care2": ["Dra. María García", "Dr. Carlos López", "Dra. Ana Rodríguez"],
     grooming: ["Sofia Martínez", "Marcos Murillo"],
     bath: ["María Carrasco", "Gonzalo Morales"]
   };
@@ -132,6 +132,8 @@
     "15:30",
     "16:00",
     "16:30",
+    "17:00",
+    "17:30",
   ];
 
   function getAvailableDates() {
@@ -288,6 +290,12 @@
   // -----------------------------
   // Booking Wizard UI (POO) + LocalStorage bookings
   // -----------------------------
+  function isSunday(dateStr) {
+    // dateStr = "YYYY-MM-DD"
+    const d = new Date(dateStr + "T00:00:00");
+    return d.getDay() === 0; // 0 = Sunday
+  }
+
   class BookingWizardUI {
     constructor(repo) {
       this.repo = repo;
@@ -319,7 +327,7 @@
       this.serviceList = $("#serviceList");
       this.professionalField = $("#professionalField");
       this.professionalList = $("#professionalList");
-    
+
       this.dateInput = $("#dateInput");
       this.timeGrid = $("#timeGrid");
 
@@ -385,16 +393,16 @@
         key === "date"
           ? this.dateInput
           : key === "ownerName"
-          ? this.ownerName
-          : key === "petName"
-          ? this.petName
-          : key === "petType"
-          ? this.petType
-          : key === "phone"
-          ? this.phone
-          : key === "email"
-          ? this.email
-          : null;
+            ? this.ownerName
+            : key === "petName"
+              ? this.petName
+              : key === "petType"
+                ? this.petType
+                : key === "phone"
+                  ? this.phone
+                  : key === "email"
+                    ? this.email
+                    : null;
 
       if (p) {
         p.textContent = message || "";
@@ -438,6 +446,10 @@
         }
         if (!this.formData.timeSlot) {
           this.setError("timeSlot", "Seleccione un horario");
+          ok = false;
+        }
+        if (this.formData.date && isSunday(this.formData.date)) {
+          this.setError("date", "Los domingos está cerrado. Elegí otro día.");
           ok = false;
         }
       }
@@ -615,7 +627,19 @@
     bindEvents() {
       if (this.dateInput) {
         this.dateInput.addEventListener("change", (e) => {
-          this.formData.date = e.target.value;
+          const value = e.target.value;
+
+          // No permitir domingos
+          if (value && isSunday(value)) {
+            this.formData.date = "";
+            this.dateInput.value = "";
+            this.setError("date", "Los domingos está cerrado. Elegí otro día.");
+            this.renderSummary();
+            this.persistDraft();
+            return;
+          }
+
+          this.formData.date = value;
           this.setError("date", "");
           this.renderSummary();
           this.persistDraft();
@@ -748,14 +772,14 @@
     }
 
     setAdminMode(isAdmin) {
-  document.body.classList.toggle("is-admin", isAdmin);
+      document.body.classList.toggle("is-admin", isAdmin);
 
-  if (this.publicApp) this.publicApp.classList.toggle("hidden", isAdmin);
-  if (this.footer) this.footer.classList.toggle("hidden", isAdmin);
-  if (this.adminSection) this.adminSection.classList.toggle("hidden", !isAdmin);
+      if (this.publicApp) this.publicApp.classList.toggle("hidden", isAdmin);
+      if (this.footer) this.footer.classList.toggle("hidden", isAdmin);
+      if (this.adminSection) this.adminSection.classList.toggle("hidden", !isAdmin);
 
-  if (isAdmin) window.scrollTo({ top: 0, behavior: "smooth" });
-}
+      if (isAdmin) window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   }
 
   class AdminLoginModalUI {
@@ -932,7 +956,7 @@
           const td = document.createElement("td");
           td.textContent = txt;
           tr.appendChild(td);
-        });      
+        });
         this.tbody.appendChild(tr);
       });
 
