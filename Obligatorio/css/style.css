@@ -137,7 +137,9 @@ code {
   z-index: 50;
   background: hsl(0 0% 100%);
   border-bottom: 1px solid hsl(var(--primary) / 0.10);
-  box-shadow: 0 1px 8px rgba(0,0,0,.05);
+  box-shadow: 0 1px 8px rgba(0,0,0,.05);  
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 .header-row {
   display: flex;
@@ -154,19 +156,27 @@ code {
   gap: .5rem;
   text-decoration: none;
 }
+
 .logo-badge {
-  width: 40px;
-  height: 40px;
+  width: 95px;
   border-radius: .5rem;
   background: hsl(var(--primary));
   display: grid;
   place-items: center;
 }
+
+/* .logo-badge img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+} */
+
 .logo-emoji {
   color: white;
   font-weight: 800;
   font-size: 1.125rem;
 }
+
 .logo-text {
   color: hsl(var(--primary));
   font-weight: 800;
@@ -430,6 +440,7 @@ code {
 
 /* Booking */
 .panel {
+  width: 1120px;
   background: white;
   border-radius: 1rem;
   box-shadow: 0 8px 24px rgba(0,0,0,.08);

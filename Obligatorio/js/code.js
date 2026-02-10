@@ -920,7 +920,7 @@
 
       const user = this.auth.currentUser();
       if (this.welcome)
-        this.welcome.textContent = `Logged in as ${user?.email || ""}`;
+        this.welcome.textContent = `Iniciaste sesión como ${user?.email || ""}`;
 
       this.renderBookings();
     }
@@ -932,7 +932,7 @@
       this.tbody.innerHTML = "";
 
       if (!list.length) {
-        this.empty.textContent = "No bookings yet.";
+        this.empty.textContent = "No hay reservas aún.";
         return;
       }
       this.empty.textContent = "";
