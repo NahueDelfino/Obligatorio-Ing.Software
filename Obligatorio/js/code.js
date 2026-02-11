@@ -755,7 +755,6 @@
       const pet = this.formData.petName.trim();
 
       this.successText.textContent = `Gracias, ${owner}! Tu cita ${pet} ha sido confirmada.`;
-      this.successSub.textContent = `Enviaremos un correo electrónico de confirmación a ${this.formData.email}`;
 
       this.successWrap.classList.remove("hidden");
       this.panel.classList.add("hidden");
@@ -929,32 +928,16 @@
 
     renderBookings() {
       if (!this.tbody || !this.empty) return;
-
       const list = this.repo.list();
       this.tbody.innerHTML = "";
-
       if (!list.length) {
         this.empty.textContent = "No hay reservas.";
         return;
       }
       this.empty.textContent = "";
 
-
-      const sortedList = [...list].sort((a, b) => {
-        // Fecha + hora
-        const dateA = new Date(`${a.date}T${a.timeSlot}`);
-        const dateB = new Date(`${b.date}T${b.timeSlot}`);
-
-        if (dateA < dateB) return -1;
-        if (dateA > dateB) return 1;
-
-        // Si fecha y hora son iguales → profesional
-        return (a.professional || "").localeCompare(b.professional || "");
-      });
-
-      sortedList.forEach((b) => {
+      list.forEach((b) => {
         const tr = document.createElement("tr");
-
         const cells = [
           b.date || "",
           b.timeSlot || "",
@@ -966,7 +949,6 @@
           b.phone || "",
           b.email || "",
         ];
-
         cells.forEach((txt) => {
           const td = document.createElement("td");
           td.textContent = txt;
@@ -975,7 +957,6 @@
 
         this.tbody.appendChild(tr);
       });
-
       $$("[data-del]", this.tbody).forEach((btn) => {
         btn.addEventListener("click", () => {
           const id = btn.getAttribute("data-del");

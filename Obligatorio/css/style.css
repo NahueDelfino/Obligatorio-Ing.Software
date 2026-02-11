@@ -137,7 +137,9 @@ code {
   z-index: 50;
   background: hsl(0 0% 100%);
   border-bottom: 1px solid hsl(var(--primary) / 0.10);
-  box-shadow: 0 1px 8px rgba(0,0,0,.05);
+  box-shadow: 0 1px 8px rgba(0,0,0,.05);  
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 .header-row {
   display: flex;
@@ -176,6 +178,7 @@ code {
   font-weight: 800;
   font-size: 1.125rem;
 }
+
 .logo-text {
   color: hsl(var(--primary));
   font-weight: 800;
@@ -438,7 +441,7 @@ code {
 }
 
 /* Booking */
-.panel {
+.panel {  
   background: white;
   border-radius: 1rem;
   box-shadow: 0 8px 24px rgba(0,0,0,.08);
