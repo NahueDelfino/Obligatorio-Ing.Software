@@ -918,14 +918,12 @@
     render() {
       const logged = this.auth.isLoggedIn();
       this.dashboard.classList.toggle("hidden", !logged);
-      this.shell.setAdminMode(logged);
       if (!logged) return;
       const user = this.auth.currentUser();
       if (this.welcome)
         this.welcome.textContent = `Logueado: ${user?.email || ""}`;
       this.renderBookings();
     }
-
     renderBookings() {
       if (!this.tbody || !this.empty) return;
       const list = this.repo.list();
@@ -936,7 +934,16 @@
       }
       this.empty.textContent = "";
 
-      list.forEach((b) => {
+      const sortedList = [...list].sort((a, b) => {
+        // Fecha + hora
+        const dateA = new Date(`${a.date}T${a.timeSlot}`);
+        const dateB = new Date(`${b.date}T${b.timeSlot}`);
+        if (dateA < dateB) return -1;
+        if (dateA > dateB) return 1;
+        // Si fecha y hora son iguales → profesional
+        return (a.professional || "").localeCompare(b.professional || "");
+      });
+      sortedList.forEach((b) => {
         const tr = document.createElement("tr");
         const cells = [
           b.date || "",
@@ -954,7 +961,6 @@
           td.textContent = txt;
           tr.appendChild(td);
         });
-
         this.tbody.appendChild(tr);
       });
       $$("[data-del]", this.tbody).forEach((btn) => {
