@@ -145,11 +145,12 @@ code {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 4rem;
+  height: 6rem;
 }
 @media (min-width: 768px) {
   .header-row { height: 5rem; }
 }
+
 .logo-link {
   display: flex;
   align-items: center;
@@ -158,11 +159,18 @@ code {
 }
 
 .logo-badge {
-  width: 95px;
+  width: 100px;
   border-radius: .5rem;
   background: hsl(var(--primary));
   display: grid;
   place-items: center;
+  overflow: hidden;
+}
+
+.logo-badge img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .logo-emoji {
@@ -754,13 +762,11 @@ code {
   gap: 1rem;
   margin-bottom: 1rem;
 }
-.admin-panel {  
-  background: white;
-  border-radius: 1rem;
-  box-shadow: 0 8px 24px rgba(0,0,0,.08);
-  padding: 1.5rem;
+
+body.is-admin #openAdminLoginBtn {
+  display: none !important;
 }
-@media (min-width: 768px) { .admin-panel { padding: 2rem; } }
+
 .admin-welcome {
   margin: 0;
   font-weight: 700;
@@ -774,6 +780,7 @@ code {
 }
 
 .admin-table-wrap {
+  white-space: nowrap;
   overflow-x: auto;
   border: 1px solid hsl(var(--border));
   border-radius: .75rem;
