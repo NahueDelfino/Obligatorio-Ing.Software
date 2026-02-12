@@ -107,14 +107,14 @@
 
   const services = [
     { id: "vet-care", name: "Veterinaria clinica" },
-    { id: "vet-care2", name: "Cirugia veterinaria" },
+    {id:"vet-care2",name:"Cirugia veterinaria"},
     { id: "grooming", name: "Corte de uñas e higiene básica" },
-    { id: "bath", name: "Corte de pelo y estilismo" }
+    { id: "bath", name: "Corte de pelo y estilismo"}
   ];
 
   const professionalsByService = {
     "vet-care": ["Dra. María García", "Dr. Carlos López", "Dra. Ana Rodríguez"],
-    "vet-care2": ["Dra. María García", "Dr. Carlos López", "Dra. Ana Rodríguez"],
+    "vet-care2":["Dra. María García", "Dr. Carlos López", "Dra. Ana Rodríguez"],
     grooming: ["Sofia Martínez", "Marcos Murillo"],
     bath: ["María Carrasco", "Gonzalo Morales"]
   };
@@ -136,13 +136,27 @@
     "17:30",
   ];
 
+  function isSunday(dateStr) {
+    // dateStr: "YYYY-MM-DD"
+    const d = new Date(`${dateStr}T00:00:00`);
+    return d.getDay() === 0; // 0 = Sunday
+  }
+
   function getAvailableDates() {
+    // Next 15 available dates starting tomorrow, skipping Sundays
     const dates = [];
     const today = new Date();
-    for (let i = 1; i <= 15; i++) {
+
+    let offset = 1;
+    while (dates.length < 15) {
       const d = new Date(today);
-      d.setDate(d.getDate() + i);
-      dates.push(d.toISOString().split("T")[0]);
+      d.setDate(d.getDate() + offset);
+
+      const iso = d.toISOString().split("T")[0];
+      if (!isSunday(iso)) dates.push(iso);
+
+      offset += 1;
+      if (offset > 60) break; // safety
     }
     return dates;
   }
@@ -238,9 +252,6 @@
     mount() {
       this.btn = $("#mobileMenuBtn");
       this.nav = $("#mobileNav");
-
-      this.loginBtn = $("#openAdminLoginBtn");
-
       if (!this.btn || !this.nav) return;
 
       const setOpen = (open) => {
@@ -293,12 +304,6 @@
   // -----------------------------
   // Booking Wizard UI (POO) + LocalStorage bookings
   // -----------------------------
-  function isSunday(dateStr) {
-    // dateStr = "YYYY-MM-DD"
-    const d = new Date(dateStr + "T00:00:00");
-    return d.getDay() === 0; // 0 = Sunday
-  }
-
   class BookingWizardUI {
     constructor(repo) {
       this.repo = repo;
@@ -330,7 +335,7 @@
       this.serviceList = $("#serviceList");
       this.professionalField = $("#professionalField");
       this.professionalList = $("#professionalList");
-
+    
       this.dateInput = $("#dateInput");
       this.timeGrid = $("#timeGrid");
 
@@ -362,6 +367,11 @@
       if (draft) {
         this.currentStep = draft.currentStep || 1;
         this.formData = { ...this.formData, ...draft.formData };
+      }
+
+      // Si el draft guardó un domingo (por cambios de reglas), lo limpiamos
+      if (this.formData.date && isSunday(this.formData.date)) {
+        this.formData.date = "";
       }
 
       this.setDateBounds();
@@ -396,16 +406,16 @@
         key === "date"
           ? this.dateInput
           : key === "ownerName"
-            ? this.ownerName
-            : key === "petName"
-              ? this.petName
-              : key === "petType"
-                ? this.petType
-                : key === "phone"
-                  ? this.phone
-                  : key === "email"
-                    ? this.email
-                    : null;
+          ? this.ownerName
+          : key === "petName"
+          ? this.petName
+          : key === "petType"
+          ? this.petType
+          : key === "phone"
+          ? this.phone
+          : key === "email"
+          ? this.email
+          : null;
 
       if (p) {
         p.textContent = message || "";
@@ -446,13 +456,12 @@
         if (!this.formData.date) {
           this.setError("date", "Seleccione una fecha");
           ok = false;
+        } else if (isSunday(this.formData.date)) {
+          this.setError("date", "Los domingos está cerrado. Elija otro día.");
+          ok = false;
         }
         if (!this.formData.timeSlot) {
           this.setError("timeSlot", "Seleccione un horario");
-          ok = false;
-        }
-        if (this.formData.date && isSunday(this.formData.date)) {
-          this.setError("date", "Los domingos está cerrado. Elegí otro día.");
           ok = false;
         }
       }
@@ -599,24 +608,24 @@
       setSum(
         this.sumService,
         !!this.formData.serviceType,
-        `<strong>Service:</strong> ${escapeHtml(serviceName)}`
+        `<strong>Servicio:</strong> ${escapeHtml(serviceName)}`
       );
       setSum(
         this.sumProfessional,
         !!this.formData.professional,
-        `<strong>Professional:</strong> ${escapeHtml(
+        `<strong>Profesional:</strong> ${escapeHtml(
           this.formData.professional
         )}`
       );
       setSum(
         this.sumDate,
         !!this.formData.date,
-        `<strong>Date:</strong> ${escapeHtml(this.formData.date)}`
+        `<strong>Fecha:</strong> ${escapeHtml(this.formData.date)}`
       );
       setSum(
         this.sumTime,
         !!this.formData.timeSlot,
-        `<strong>Time:</strong> ${escapeHtml(this.formData.timeSlot)}`
+        `<strong>Hora:</strong> ${escapeHtml(this.formData.timeSlot)}`
       );
     }
 
@@ -632,11 +641,11 @@
         this.dateInput.addEventListener("change", (e) => {
           const value = e.target.value;
 
-          // No permitir domingos
           if (value && isSunday(value)) {
+            // No se permite reservar domingos
             this.formData.date = "";
             this.dateInput.value = "";
-            this.setError("date", "Los domingos está cerrado. Elegí otro día.");
+            this.setError("date", "Los domingos está cerrado. Elija otro día.");
             this.renderSummary();
             this.persistDraft();
             return;
@@ -755,6 +764,7 @@
       const pet = this.formData.petName.trim();
 
       this.successText.textContent = `Gracias, ${owner}! Tu cita ${pet} ha sido confirmada.`;
+      this.successSub.textContent = `Enviaremos un correo electrónico de confirmación a ${this.formData.email}`;
 
       this.successWrap.classList.remove("hidden");
       this.panel.classList.add("hidden");
@@ -774,14 +784,14 @@
     }
 
     setAdminMode(isAdmin) {
-      document.body.classList.toggle("is-admin", isAdmin);
+  document.body.classList.toggle("is-admin", isAdmin);
 
-      if (this.publicApp) this.publicApp.classList.toggle("hidden", isAdmin);
-      if (this.footer) this.footer.classList.toggle("hidden", isAdmin);
-      if (this.adminSection) this.adminSection.classList.toggle("hidden", !isAdmin);
+  if (this.publicApp) this.publicApp.classList.toggle("hidden", isAdmin);
+  if (this.footer) this.footer.classList.toggle("hidden", isAdmin);
+  if (this.adminSection) this.adminSection.classList.toggle("hidden", !isAdmin);
 
-      if (isAdmin) window.scrollTo({ top: 0, behavior: "smooth" });
-    }
+  if (isAdmin) window.scrollTo({ top: 0, behavior: "smooth" });
+}
   }
 
   class AdminLoginModalUI {
@@ -860,18 +870,18 @@
 
       let ok = true;
       if (!email) {
-        this.setFieldError(this.emailError, "Email is required");
+        this.setFieldError(this.emailError, "Email es requerido");
         ok = false;
       }
       if (!password) {
-        this.setFieldError(this.passwordError, "Password is required");
+        this.setFieldError(this.passwordError, "Contraseña es requerida");
         ok = false;
       }
       if (!ok) return;
 
       const res = this.auth.login(email, password);
       if (!res.ok) {
-        this.setFieldError(this.passwordError, "Invalid email or password");
+        this.setFieldError(this.passwordError, "Email o contraseña incorrectos");
         return;
       }
 
@@ -919,32 +929,29 @@
       const logged = this.auth.isLoggedIn();
       this.dashboard.classList.toggle("hidden", !logged);
       if (!logged) return;
+
       const user = this.auth.currentUser();
       if (this.welcome)
-        this.welcome.textContent = `Logueado: ${user?.email || ""}`;
+        this.welcome.textContent = `Iniciaste sesión como ${user?.email || ""}`;
+
       this.renderBookings();
     }
+
     renderBookings() {
       if (!this.tbody || !this.empty) return;
+
       const list = this.repo.list();
       this.tbody.innerHTML = "";
+
       if (!list.length) {
         this.empty.textContent = "No hay reservas.";
         return;
       }
       this.empty.textContent = "";
 
-      const sortedList = [...list].sort((a, b) => {
-        // Fecha + hora
-        const dateA = new Date(`${a.date}T${a.timeSlot}`);
-        const dateB = new Date(`${b.date}T${b.timeSlot}`);
-        if (dateA < dateB) return -1;
-        if (dateA > dateB) return 1;
-        // Si fecha y hora son iguales → profesional
-        return (a.professional || "").localeCompare(b.professional || "");
-      });
-      sortedList.forEach((b) => {
+      list.forEach((b) => {
         const tr = document.createElement("tr");
+
         const cells = [
           b.date || "",
           b.timeSlot || "",
@@ -956,13 +963,15 @@
           b.phone || "",
           b.email || "",
         ];
+
         cells.forEach((txt) => {
           const td = document.createElement("td");
           td.textContent = txt;
           tr.appendChild(td);
-        });
+        });      
         this.tbody.appendChild(tr);
       });
+
       $$("[data-del]", this.tbody).forEach((btn) => {
         btn.addEventListener("click", () => {
           const id = btn.getAttribute("data-del");
