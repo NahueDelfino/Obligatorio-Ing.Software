@@ -15,9 +15,8 @@ function loadHtmlIntoDom() {
 }
 
 function runAppScript() {
-  // IMPORTANTE: en tu index.html el script real es ./js/code.js
   const candidates = [
-    path.resolve(__dirname, "../../js/code.js"),
+    path.resolve(__dirname, "../../js/code.js"), // tu ruta real
     path.resolve(__dirname, "../../code.js"),
   ];
 
@@ -26,12 +25,20 @@ function runAppScript() {
     throw new Error("No se encontró code.js. Probé:\n" + candidates.join("\n"));
   }
 
+  // Reset del “guard” si existe
+  window.__huellasAppInitialized = false;
+
   delete require.cache[appPath];
   require(appPath);
 
-  // Fuerza init si el script esperaba eventos del navegador
-  document.dispatchEvent(new Event("DOMContentLoaded"));
-  window.dispatchEvent(new Event("load"));
+  // Inicialización determinística (sin depender de DOMContentLoaded)
+  if (typeof window.__huellasInit === "function") {
+    window.__huellasInit();
+  } else {
+    // fallback por si aún no pusiste el hook
+    document.dispatchEvent(new Event("DOMContentLoaded"));
+    window.dispatchEvent(new Event("load"));
+  }
 }
 
 function bootApp() {
