@@ -142,22 +142,35 @@
     return d.getDay() === 0; // 0 = Sunday
   }
 
+  function formatDateLocal(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
+
   function getAvailableDates() {
-    // Next 15 available dates starting tomorrow, skipping Sundays
+    // Próximos 15 días disponibles начиная mañana, sin domingos
     const dates = [];
     const today = new Date();
 
     let offset = 1;
+
     while (dates.length < 15) {
       const d = new Date(today);
-      d.setDate(d.getDate() + offset);
+      d.setDate(today.getDate() + offset);
 
-      const iso = d.toISOString().split("T")[0];
-      if (!isSunday(iso)) dates.push(iso);
+      const formatted = formatDateLocal(d);
 
-      offset += 1;
-      if (offset > 60) break; // safety
+      if (!isSunday(formatted)) {
+        dates.push(formatted);
+      }
+
+      offset++;
+
+      if (offset > 60) break;
     }
+
     return dates;
   }
 
@@ -456,10 +469,32 @@
         if (!this.formData.date) {
           this.setError("date", "Seleccione una fecha");
           ok = false;
-        } else if (isSunday(this.formData.date)) {
-          this.setError("date", "Los domingos está cerrado. Elija otro día.");
-          ok = false;
+        } else {
+          const selected = new Date(this.formData.date);
+
+          // Fecha de hoy sin hora
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+
+          // Desde mañana
+          const minDate = new Date(today);
+          minDate.setDate(today.getDate() + 1);
+
+          // Máxima permitida (la que ya seteás con setDateBounds)
+          const maxDate = new Date(this.dateInput.max);
+
+          if (selected < minDate) {
+            this.setError("date", "Debe seleccionar una fecha a partir de mañana");
+            ok = false;
+          } else if (selected > maxDate) {
+            this.setError("date", "Fecha fuera del rango permitido");
+            ok = false;
+          } else if (isSunday(this.formData.date)) {
+            this.setError("date", "Los domingos está cerrado. Elija otro día.");
+            ok = false;
+          }
         }
+
         if (!this.formData.timeSlot) {
           this.setError("timeSlot", "Seleccione un horario");
           ok = false;
