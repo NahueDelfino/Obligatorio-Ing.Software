@@ -1,0 +1,58 @@
+# =========================
+# Node
+# =========================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# =========================
+# Environment files
+# =========================
+.env
+.env.*
+!.env.example
+
+# =========================
+# Coverage (Jest)
+# =========================
+coverage/
+
+# =========================
+# Logs
+# =========================
+logs
+*.log
+
+# =========================
+# OS Files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# VSCode
+# =========================
+.vscode/
+!.vscode/settings.json
+
+# =========================
+# JetBrains
+# =========================
+.idea/
+
+# =========================
+# Temporary files
+# =========================
+*.tmp
+*.temp
+*.swp
+*.swo
+
+# =========================
+# Lock files (opcional)
+# =========================
+# Si trabajás solo, podés ignorarlo.
+# Si trabajás en equipo, NO lo ignores.
+# package-lock.json
