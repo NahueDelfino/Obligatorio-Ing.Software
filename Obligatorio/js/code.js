@@ -107,14 +107,14 @@
 
   const services = [
     { id: "vet-care", name: "Veterinaria clinica" },
-    {id:"vet-care2",name:"Cirugia veterinaria"},
+    { id: "vet-care2", name: "Cirugia veterinaria" },
     { id: "grooming", name: "Corte de uñas e higiene básica" },
-    { id: "bath", name: "Corte de pelo y estilismo"}
+    { id: "bath", name: "Corte de pelo y estilismo" }
   ];
 
   const professionalsByService = {
     "vet-care": ["Dra. María García", "Dr. Carlos López", "Dra. Ana Rodríguez"],
-    "vet-care2":["Dra. María García", "Dr. Carlos López", "Dra. Ana Rodríguez"],
+    "vet-care2": ["Dra. María García", "Dr. Carlos López", "Dra. Ana Rodríguez"],
     grooming: ["Sofia Martínez", "Marcos Murillo"],
     bath: ["María Carrasco", "Gonzalo Morales"]
   };
@@ -335,7 +335,7 @@
       this.serviceList = $("#serviceList");
       this.professionalField = $("#professionalField");
       this.professionalList = $("#professionalList");
-    
+
       this.dateInput = $("#dateInput");
       this.timeGrid = $("#timeGrid");
 
@@ -406,16 +406,16 @@
         key === "date"
           ? this.dateInput
           : key === "ownerName"
-          ? this.ownerName
-          : key === "petName"
-          ? this.petName
-          : key === "petType"
-          ? this.petType
-          : key === "phone"
-          ? this.phone
-          : key === "email"
-          ? this.email
-          : null;
+            ? this.ownerName
+            : key === "petName"
+              ? this.petName
+              : key === "petType"
+                ? this.petType
+                : key === "phone"
+                  ? this.phone
+                  : key === "email"
+                    ? this.email
+                    : null;
 
       if (p) {
         p.textContent = message || "";
@@ -469,9 +469,21 @@
         if (!this.formData.ownerName.trim()) {
           this.setError("ownerName", "Su nombre es requerido");
           ok = false;
+        } else if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{2,}$/.test(this.formData.ownerName.trim())) {
+          this.setError(
+            "ownerName",
+            "El nombre debe tener al menos 2 letras y solo contener letras"
+          );
+          ok = false;
         }
         if (!this.formData.petName.trim()) {
           this.setError("petName", "El nombre de la mascota es requerido");
+          ok = false;
+        } else if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{2,}$/.test(this.formData.petName.trim())) {
+          this.setError(
+            "petName",
+            "El nombre debe tener al menos 2 letras y solo contener letras"
+          );
           ok = false;
         }
         if (!this.formData.petType) {
@@ -484,292 +496,295 @@
           ok = false;
         } else {
           const digits = this.formData.phone.replace(/\D/g, "");
-          if (!/^\d{7,}$/.test(digits)) {
-            this.setError("phone", "Ingrese un telefono valido");
+
+          if (!/^09\d{7}$/.test(digits)) {
+            this.setError(
+              "phone",
+              "Debe ser un celular válido de 9 dígitos y comenzar con 09"
+            );
+            ok = false;
+          }
+
+          if (!this.formData.email.trim()) {
+            this.setError("email", "El email es requerido");
+            ok = false;
+          } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.formData.email)) {
+            this.setError("email", "Ingrese un email valido");
             ok = false;
           }
         }
 
-        if (!this.formData.email.trim()) {
-          this.setError("email", "El email es requerido");
-          ok = false;
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.formData.email)) {
-          this.setError("email", "Ingrese un email valido");
-          ok = false;
+        return ok;
+      }
+
+      renderStep() {
+        this.steps.forEach((s) => {
+          const n = Number(s.getAttribute("data-step"));
+          s.classList.toggle("hidden", n !== this.currentStep);
+        });
+
+        if (this.stepIndicator)
+          this.stepIndicator.textContent = `Paso ${this.currentStep} de 3`;
+        if (this.prevBtn) this.prevBtn.disabled = this.currentStep === 1;
+
+        const isLast = this.currentStep === 3;
+        if (this.nextBtn) this.nextBtn.classList.toggle("hidden", isLast);
+        if (this.confirmBtn) this.confirmBtn.classList.toggle("hidden", !isLast);
+      }
+
+      renderServices() {
+        if (!this.serviceList) return;
+        this.serviceList.innerHTML = "";
+
+        services.forEach((s) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "choice-btn";
+          btn.textContent = s.name;
+          btn.classList.toggle("selected", this.formData.serviceType === s.id);
+
+          btn.addEventListener("click", () => {
+            this.formData.serviceType = s.id;
+            this.formData.professional = "";
+            this.setError("serviceType", "");
+            this.setError("professional", "");
+            this.renderServices();
+            this.renderProfessionals();
+            this.renderSummary();
+            this.persistDraft();
+          });
+
+          this.serviceList.appendChild(btn);
+        });
+      }
+
+      renderProfessionals() {
+        if (!this.professionalField || !this.professionalList) return;
+
+        const profs = professionalsByService[this.formData.serviceType] || [];
+        const show = !!this.formData.serviceType;
+        this.professionalField.classList.toggle("hidden", !show);
+
+        this.professionalList.innerHTML = "";
+        profs.forEach((name) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "choice-btn";
+          btn.textContent = name;
+          btn.classList.toggle("selected", this.formData.professional === name);
+
+          btn.addEventListener("click", () => {
+            this.formData.professional = name;
+            this.setError("professional", "");
+            this.renderProfessionals();
+            this.renderSummary();
+            this.persistDraft();
+          });
+
+          this.professionalList.appendChild(btn);
+        });
+      }
+
+      renderTimes() {
+        if (!this.timeGrid) return;
+        this.timeGrid.innerHTML = "";
+
+        timeSlots.forEach((t) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "time-btn";
+          btn.textContent = t;
+          btn.classList.toggle("selected", this.formData.timeSlot === t);
+
+          btn.addEventListener("click", () => {
+            this.formData.timeSlot = t;
+            this.setError("timeSlot", "");
+            this.renderTimes();
+            this.renderSummary();
+            this.persistDraft();
+          });
+
+          this.timeGrid.appendChild(btn);
+        });
+      }
+
+      renderSummary() {
+        if (!this.summaryBox) return;
+
+        const serviceName =
+          services.find((s) => s.id === this.formData.serviceType)?.name || "";
+
+        const setSum = (el, visible, html) => {
+          if (!el) return;
+          el.classList.toggle("hidden", !visible);
+          el.innerHTML = html;
+        };
+
+        setSum(
+          this.sumService,
+          !!this.formData.serviceType,
+          `<strong>Servicio:</strong> ${escapeHtml(serviceName)}`
+        );
+        setSum(
+          this.sumProfessional,
+          !!this.formData.professional,
+          `<strong>Profesional:</strong> ${escapeHtml(
+            this.formData.professional
+          )}`
+        );
+        setSum(
+          this.sumDate,
+          !!this.formData.date,
+          `<strong>Fecha:</strong> ${escapeHtml(this.formData.date)}`
+        );
+        setSum(
+          this.sumTime,
+          !!this.formData.timeSlot,
+          `<strong>Hora:</strong> ${escapeHtml(this.formData.timeSlot)}`
+        );
+      }
+
+      setDateBounds() {
+        if (!this.dateInput) return;
+        const dates = getAvailableDates();
+        this.dateInput.min = dates[0];
+        this.dateInput.max = dates[dates.length - 1];
+      }
+
+      bindEvents() {
+        if (this.dateInput) {
+          this.dateInput.addEventListener("change", (e) => {
+            const value = e.target.value;
+
+            if (value && isSunday(value)) {
+              // No se permite reservar domingos
+              this.formData.date = "";
+              this.dateInput.value = "";
+              this.setError("date", "Los domingos está cerrado. Elija otro día.");
+              this.renderSummary();
+              this.persistDraft();
+              return;
+            }
+
+            this.formData.date = value;
+            this.setError("date", "");
+            this.renderSummary();
+            this.persistDraft();
+          });
+        }
+
+        const bindTextInput = (el, key) => {
+          if (!el) return;
+          el.addEventListener("input", (e) => {
+            this.formData[key] = e.target.value;
+            this.setError(key, "");
+            this.persistDraft();
+          });
+        };
+
+        bindTextInput(this.ownerName, "ownerName");
+        bindTextInput(this.petName, "petName");
+        bindTextInput(this.phone, "phone");
+        bindTextInput(this.email, "email");
+
+        if (this.petType) {
+          this.petType.addEventListener("change", (e) => {
+            this.formData.petType = e.target.value;
+            this.setError("petType", "");
+            this.persistDraft();
+          });
+        }
+
+        if (this.prevBtn) {
+          this.prevBtn.addEventListener("click", () => {
+            if (this.currentStep > 1) {
+              this.currentStep -= 1;
+              this.clearErrors();
+              this.renderStep();
+              this.persistDraft();
+            }
+          });
+        }
+
+        if (this.nextBtn) {
+          this.nextBtn.addEventListener("click", () => {
+            if (this.validateStep(this.currentStep)) {
+              this.currentStep += 1;
+              this.renderStep();
+              this.persistDraft();
+            }
+          });
+        }
+
+        if (this.confirmBtn) {
+          this.confirmBtn.addEventListener("click", () => {
+            if (!this.validateStep(3)) return;
+
+            const booking = {
+              id: uid(),
+              serviceType: this.formData.serviceType,
+              serviceName:
+                services.find((s) => s.id === this.formData.serviceType)?.name ||
+                "",
+              professional: this.formData.professional,
+              date: this.formData.date,
+              timeSlot: this.formData.timeSlot,
+              ownerName: this.formData.ownerName,
+              petName: this.formData.petName,
+              petType: this.formData.petType,
+              phone: this.formData.phone,
+              email: this.formData.email,
+              createdAt: new Date().toISOString(),
+            };
+
+            this.repo.add(booking);
+            this.repo.clearDraft();
+
+            this.showSuccess();
+
+            window.setTimeout(() => {
+              this.formData = {
+                serviceType: "",
+                professional: "",
+                date: "",
+                timeSlot: "",
+                ownerName: "",
+                petName: "",
+                petType: "",
+                phone: "",
+                email: "",
+              };
+
+              this.currentStep = 1;
+
+              this.hydrateInputs();
+              this.clearErrors();
+              this.renderServices();
+              this.renderProfessionals();
+              this.renderTimes();
+              this.renderSummary();
+              this.renderStep();
+
+              if (this.successWrap) this.successWrap.classList.add("hidden");
+              if (this.panel) this.panel.classList.remove("hidden");
+            }, 3000);
+          });
         }
       }
 
-      return ok;
-    }
+      showSuccess() {
+        if (!this.successWrap || !this.successText || !this.successSub) return;
 
-    renderStep() {
-      this.steps.forEach((s) => {
-        const n = Number(s.getAttribute("data-step"));
-        s.classList.toggle("hidden", n !== this.currentStep);
-      });
+        const owner = this.formData.ownerName.trim();
+        const pet = this.formData.petName.trim();
 
-      if (this.stepIndicator)
-        this.stepIndicator.textContent = `Paso ${this.currentStep} de 3`;
-      if (this.prevBtn) this.prevBtn.disabled = this.currentStep === 1;
+        this.successText.textContent = `Gracias, ${owner}! Tu cita ${pet} ha sido confirmada.`;
+        this.successSub.textContent = `Enviaremos un correo electrónico de confirmación a ${this.formData.email}`;
 
-      const isLast = this.currentStep === 3;
-      if (this.nextBtn) this.nextBtn.classList.toggle("hidden", isLast);
-      if (this.confirmBtn) this.confirmBtn.classList.toggle("hidden", !isLast);
-    }
-
-    renderServices() {
-      if (!this.serviceList) return;
-      this.serviceList.innerHTML = "";
-
-      services.forEach((s) => {
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "choice-btn";
-        btn.textContent = s.name;
-        btn.classList.toggle("selected", this.formData.serviceType === s.id);
-
-        btn.addEventListener("click", () => {
-          this.formData.serviceType = s.id;
-          this.formData.professional = "";
-          this.setError("serviceType", "");
-          this.setError("professional", "");
-          this.renderServices();
-          this.renderProfessionals();
-          this.renderSummary();
-          this.persistDraft();
-        });
-
-        this.serviceList.appendChild(btn);
-      });
-    }
-
-    renderProfessionals() {
-      if (!this.professionalField || !this.professionalList) return;
-
-      const profs = professionalsByService[this.formData.serviceType] || [];
-      const show = !!this.formData.serviceType;
-      this.professionalField.classList.toggle("hidden", !show);
-
-      this.professionalList.innerHTML = "";
-      profs.forEach((name) => {
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "choice-btn";
-        btn.textContent = name;
-        btn.classList.toggle("selected", this.formData.professional === name);
-
-        btn.addEventListener("click", () => {
-          this.formData.professional = name;
-          this.setError("professional", "");
-          this.renderProfessionals();
-          this.renderSummary();
-          this.persistDraft();
-        });
-
-        this.professionalList.appendChild(btn);
-      });
-    }
-
-    renderTimes() {
-      if (!this.timeGrid) return;
-      this.timeGrid.innerHTML = "";
-
-      timeSlots.forEach((t) => {
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "time-btn";
-        btn.textContent = t;
-        btn.classList.toggle("selected", this.formData.timeSlot === t);
-
-        btn.addEventListener("click", () => {
-          this.formData.timeSlot = t;
-          this.setError("timeSlot", "");
-          this.renderTimes();
-          this.renderSummary();
-          this.persistDraft();
-        });
-
-        this.timeGrid.appendChild(btn);
-      });
-    }
-
-    renderSummary() {
-      if (!this.summaryBox) return;
-
-      const serviceName =
-        services.find((s) => s.id === this.formData.serviceType)?.name || "";
-
-      const setSum = (el, visible, html) => {
-        if (!el) return;
-        el.classList.toggle("hidden", !visible);
-        el.innerHTML = html;
-      };
-
-      setSum(
-        this.sumService,
-        !!this.formData.serviceType,
-        `<strong>Servicio:</strong> ${escapeHtml(serviceName)}`
-      );
-      setSum(
-        this.sumProfessional,
-        !!this.formData.professional,
-        `<strong>Profesional:</strong> ${escapeHtml(
-          this.formData.professional
-        )}`
-      );
-      setSum(
-        this.sumDate,
-        !!this.formData.date,
-        `<strong>Fecha:</strong> ${escapeHtml(this.formData.date)}`
-      );
-      setSum(
-        this.sumTime,
-        !!this.formData.timeSlot,
-        `<strong>Hora:</strong> ${escapeHtml(this.formData.timeSlot)}`
-      );
-    }
-
-    setDateBounds() {
-      if (!this.dateInput) return;
-      const dates = getAvailableDates();
-      this.dateInput.min = dates[0];
-      this.dateInput.max = dates[dates.length - 1];
-    }
-
-    bindEvents() {
-      if (this.dateInput) {
-        this.dateInput.addEventListener("change", (e) => {
-          const value = e.target.value;
-
-          if (value && isSunday(value)) {
-            // No se permite reservar domingos
-            this.formData.date = "";
-            this.dateInput.value = "";
-            this.setError("date", "Los domingos está cerrado. Elija otro día.");
-            this.renderSummary();
-            this.persistDraft();
-            return;
-          }
-
-          this.formData.date = value;
-          this.setError("date", "");
-          this.renderSummary();
-          this.persistDraft();
-        });
-      }
-
-      const bindTextInput = (el, key) => {
-        if (!el) return;
-        el.addEventListener("input", (e) => {
-          this.formData[key] = e.target.value;
-          this.setError(key, "");
-          this.persistDraft();
-        });
-      };
-
-      bindTextInput(this.ownerName, "ownerName");
-      bindTextInput(this.petName, "petName");
-      bindTextInput(this.phone, "phone");
-      bindTextInput(this.email, "email");
-
-      if (this.petType) {
-        this.petType.addEventListener("change", (e) => {
-          this.formData.petType = e.target.value;
-          this.setError("petType", "");
-          this.persistDraft();
-        });
-      }
-
-      if (this.prevBtn) {
-        this.prevBtn.addEventListener("click", () => {
-          if (this.currentStep > 1) {
-            this.currentStep -= 1;
-            this.clearErrors();
-            this.renderStep();
-            this.persistDraft();
-          }
-        });
-      }
-
-      if (this.nextBtn) {
-        this.nextBtn.addEventListener("click", () => {
-          if (this.validateStep(this.currentStep)) {
-            this.currentStep += 1;
-            this.renderStep();
-            this.persistDraft();
-          }
-        });
-      }
-
-      if (this.confirmBtn) {
-        this.confirmBtn.addEventListener("click", () => {
-          if (!this.validateStep(3)) return;
-
-          const booking = {
-            id: uid(),
-            serviceType: this.formData.serviceType,
-            serviceName:
-              services.find((s) => s.id === this.formData.serviceType)?.name ||
-              "",
-            professional: this.formData.professional,
-            date: this.formData.date,
-            timeSlot: this.formData.timeSlot,
-            ownerName: this.formData.ownerName,
-            petName: this.formData.petName,
-            petType: this.formData.petType,
-            phone: this.formData.phone,
-            email: this.formData.email,
-            createdAt: new Date().toISOString(),
-          };
-
-          this.repo.add(booking);
-          this.repo.clearDraft();
-
-          this.showSuccess();
-
-          window.setTimeout(() => {
-            this.formData = {
-              serviceType: "",
-              professional: "",
-              date: "",
-              timeSlot: "",
-              ownerName: "",
-              petName: "",
-              petType: "",
-              phone: "",
-              email: "",
-            };
-
-            this.currentStep = 1;
-
-            this.hydrateInputs();
-            this.clearErrors();
-            this.renderServices();
-            this.renderProfessionals();
-            this.renderTimes();
-            this.renderSummary();
-            this.renderStep();
-
-            if (this.successWrap) this.successWrap.classList.add("hidden");
-            if (this.panel) this.panel.classList.remove("hidden");
-          }, 3000);
-        });
+        this.successWrap.classList.remove("hidden");
+        this.panel.classList.add("hidden");
       }
     }
-
-    showSuccess() {
-      if (!this.successWrap || !this.successText || !this.successSub) return;
-
-      const owner = this.formData.ownerName.trim();
-      const pet = this.formData.petName.trim();
-
-      this.successText.textContent = `Gracias, ${owner}! Tu cita ${pet} ha sido confirmada.`;
-      this.successSub.textContent = `Enviaremos un correo electrónico de confirmación a ${this.formData.email}`;
-
-      this.successWrap.classList.remove("hidden");
-      this.panel.classList.add("hidden");
-    }
-  }
 
   class AppShell {
     constructor(auth) {
@@ -784,14 +799,14 @@
     }
 
     setAdminMode(isAdmin) {
-  document.body.classList.toggle("is-admin", isAdmin);
+      document.body.classList.toggle("is-admin", isAdmin);
 
-  if (this.publicApp) this.publicApp.classList.toggle("hidden", isAdmin);
-  if (this.footer) this.footer.classList.toggle("hidden", isAdmin);
-  if (this.adminSection) this.adminSection.classList.toggle("hidden", !isAdmin);
+      if (this.publicApp) this.publicApp.classList.toggle("hidden", isAdmin);
+      if (this.footer) this.footer.classList.toggle("hidden", isAdmin);
+      if (this.adminSection) this.adminSection.classList.toggle("hidden", !isAdmin);
 
-  if (isAdmin) window.scrollTo({ top: 0, behavior: "smooth" });
-}
+      if (isAdmin) window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   }
 
   class AdminLoginModalUI {
@@ -968,7 +983,7 @@
           const td = document.createElement("td");
           td.textContent = txt;
           tr.appendChild(td);
-        });      
+        });
         this.tbody.appendChild(tr);
       });
 
