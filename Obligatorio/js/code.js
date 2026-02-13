@@ -470,26 +470,33 @@
           this.setError("date", "Seleccione una fecha");
           ok = false;
         } else {
-          const selected = new Date(this.formData.date);
+          const selected = this.formData.date;
 
-          // Fecha de hoy sin hora
+          // Hoy en formato YYYY-MM-DD
           const today = new Date();
-          today.setHours(0, 0, 0, 0);
+          const year = today.getFullYear();
+          const month = String(today.getMonth() + 1).padStart(2, "0");
+          const day = String(today.getDate()).padStart(2, "0");
+          const todayStr = `${year}-${month}-${day}`;
 
-          // Desde mañana
-          const minDate = new Date(today);
-          minDate.setDate(today.getDate() + 1);
+          // Mañana
+          const tomorrow = new Date(today);
+          tomorrow.setDate(today.getDate() + 1);
 
-          // Máxima permitida (la que ya seteás con setDateBounds)
-          const maxDate = new Date(this.dateInput.max);
+          const tYear = tomorrow.getFullYear();
+          const tMonth = String(tomorrow.getMonth() + 1).padStart(2, "0");
+          const tDay = String(tomorrow.getDate()).padStart(2, "0");
+          const minDateStr = `${tYear}-${tMonth}-${tDay}`;
 
-          if (selected < minDate) {
+          const maxDateStr = this.dateInput.max;
+
+          if (selected < minDateStr) {
             this.setError("date", "Debe seleccionar una fecha a partir de mañana");
             ok = false;
-          } else if (selected > maxDate) {
+          } else if (selected > maxDateStr) {
             this.setError("date", "Fecha fuera del rango permitido");
             ok = false;
-          } else if (isSunday(this.formData.date)) {
+          } else if (isSunday(selected)) {
             this.setError("date", "Los domingos está cerrado. Elija otro día.");
             ok = false;
           }
