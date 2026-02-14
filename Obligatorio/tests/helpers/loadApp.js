@@ -16,7 +16,7 @@ function loadHtmlIntoDom() {
 
 function runAppScript() {
   const candidates = [
-    path.resolve(__dirname, "../../js/code.js"), // tu ruta real
+    path.resolve(__dirname, "../../js/code.js"), // ruta real
     path.resolve(__dirname, "../../code.js"),
   ];
 
@@ -35,7 +35,7 @@ function runAppScript() {
   if (typeof window.__huellasInit === "function") {
     window.__huellasInit();
   } else {
-    // fallback por si aún no pusiste el hook
+    // fallback por si aún no está el hook
     document.dispatchEvent(new Event("DOMContentLoaded"));
     window.dispatchEvent(new Event("load"));
   }

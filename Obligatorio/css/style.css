@@ -873,7 +873,6 @@ body.is-admin #openAdminLoginBtn {
   color: inherit;
 }
 
-/* Si tu .nav-link está en <a>, este refuerzo hace que <button> se vea igual */
 .nav-desktop .nav-btn.nav-link {
   padding: 0;
 }

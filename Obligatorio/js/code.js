@@ -139,11 +139,11 @@
   function isSunday(dateStr) {
     // dateStr: "YYYY-MM-DD"
     const d = new Date(`${dateStr}T00:00:00`);
-    return d.getDay() === 0; // 0 = Sunday
+    return d.getDay() === 0; // 0 = Domingo
   }
 
   function getAvailableDates() {
-    // Next 15 available dates starting tomorrow, skipping Sundays
+    // Proximos 15 días disponibles empezando mañana, sin Domingos
     const dates = [];
     const today = new Date();
 
@@ -156,13 +156,13 @@
       if (!isSunday(iso)) dates.push(iso);
 
       offset += 1;
-      if (offset > 60) break; // safety
+      if (offset > 60) break; 
     }
     return dates;
   }
 
   // -----------------------------
-  // Services (Storage / Repo / Auth) - POO
+  // Services (Storage / Repo / Auth) 
   // -----------------------------
   class StorageService {
     constructor(namespace) {
@@ -302,7 +302,7 @@
   }
 
   // -----------------------------
-  // Booking Wizard UI (POO) + LocalStorage bookings
+  // Booking Wizard UI + Reservas en LocalStorage
   // -----------------------------
   class BookingWizardUI {
     constructor(repo) {
@@ -984,11 +984,11 @@
   }
 
   // -----------------------------
-  // Init (manteniendo tu estilo)
+  // Init
   // -----------------------------
   function init() {
     window.__huellasInit = init;
-    // Evita doble inicialización (importante para Jest / JSDOM que dispara eventos más de una vez)
+    // Evita doble inicialización
     if (!window.__huellasAppInitialized) {
       window.__huellasAppInitialized = true;
 
@@ -1006,7 +1006,7 @@
     new FooterUI().mount();
     new HeroUI().mount();
 
-    // Services
+    // Servicios
     const storage = new StorageService("huellas");
     const repo = new BookingRepository(storage);
     const auth = new AuthService(storage);
@@ -1023,7 +1023,7 @@
     new AdminLoginModalUI(auth, shell).mount();
   }
 
-  // Exponemos un hook para tests (y para depurar) sin ensuciar la app.
+  // Exponemos un hook para tests (y para depurar).
   // En producción no cambia nada: simplemente permite llamar init() manualmente si hace falta.
   window.__huellasInit = init;
 
