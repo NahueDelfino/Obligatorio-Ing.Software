@@ -50,9 +50,8 @@ describe("Admin flow (modal login + dashboard)", () => {
     type(pass, "bar");
     click(submit);
 
-    expect(passErr.classList.contains("hidden")).toBe(false);
-    // tu app muestra: "Email o contraseña incorrectos"
-    expect(passErr.textContent.toLowerCase()).toContain("invalid");
+    expect(passErr.classList.contains("hidden")).toBe(false);   
+    expect(passErr.textContent.toLowerCase()).toContain("email o contraseña incorrectos");
 
     expect(localStorage.getItem("huellas:adminSession")).toBeNull();
   });
